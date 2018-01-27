@@ -1,0 +1,36 @@
+{ "frames": [
+   {
+    "filename": "stat-mockup-3.ase",
+    "frame": { "x": 0, "y": 0, "w": 95, "h": 28 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 64, "y": 18, "w": 95, "h": 28 },
+    "sourceSize": { "w": 256, "h": 256 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.6-x64",
+  "image": "C:\\Users\\lawton\\Desktop\\raspberry\\public\\img\\ui\\stat-mockup-3.png",
+  "format": "I8",
+  "size": { "w": 256, "h": 256 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "frame", "opacity": 255, "blendMode": "normal" },
+   { "name": "icon-1", "opacity": 255, "blendMode": "normal" },
+   { "name": "icon-2", "opacity": 255, "blendMode": "normal" },
+   { "name": "icon-3", "opacity": 255, "blendMode": "normal" },
+   { "name": "name", "opacity": 255, "blendMode": "normal" },
+   { "name": "name-hover", "opacity": 255, "blendMode": "normal" },
+   { "name": "name-click", "opacity": 255, "blendMode": "normal" },
+   { "name": "arrow", "opacity": 255, "blendMode": "normal" },
+   { "name": "arrow-hover", "opacity": 255, "blendMode": "normal" },
+   { "name": "arrow-click", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
