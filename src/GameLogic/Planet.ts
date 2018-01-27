@@ -15,6 +15,23 @@ export const materialNameToCombatUnit = {};
 materialNames.forEach((res, i) => {
     materialNameToCombatUnit[res] = combatUnitNames[i];
 });
+const mod = (v: number, m: number) => {
+    return (v + m) % m;
+};
+
+export interface CombatOrder {
+    matched: string;
+    strongAgainst: string;
+    weakAgainst: string;
+}
+export const unitCombatOrder: {[key: string]: CombatOrder} = { };
+combatUnitNames.forEach((unit, i) => {
+    unitCombatOrder[unit] = {
+        matched: unit,
+        strongAgainst: combatUnitNames[mod(i - 1, combatUnitNames.length)],
+        weakAgainst: combatUnitNames[mod(i + 1, combatUnitNames.length)],
+    };
+});
 
 //////////////////////////
 // END OF CONST GAME DATA
@@ -77,25 +94,38 @@ export class Gateway {
             }
         }
 
-        const deliverResources = (sourceOwner: string) => {
-            if (this.isMovingCombatUnits) {
+        const deliverResources = (
+            sourceOwner: string,
+            isMovingCombatUnits: boolean,
+            resourceName: string,
+            amountToMove: number,
+        ) => {
+            if (isMovingCombatUnits) {
                 // If the owners are the same, deliver units
                 if (this.destinationPlanet.planetOwner === sourceOwner) {
-                    this.destinationPlanet.stationedCombatUnits[this.movingResourceName] += this.amountToMove;
+                    this.destinationPlanet.stationedCombatUnits[resourceName] += amountToMove;
                 } else {
                     // Do combat stuff
-                    // TODO: COMBAT
-                    // TODO: Territory claiming
+                    this.destinationPlanet.DefendFrom(resourceName, amountToMove, sourceOwner);
                 }
                 
             } else {
                 // Must be moving resources
-                this.destinationPlanet.stationedMaterials[this.movingResourceName] += this.amountToMove;
+                this.destinationPlanet.stationedMaterials[resourceName] += amountToMove;
             }
         };
 
         // Kickoff timer to give resources to other planet
-        window.setTimeout(deliverResources.bind(this, this.sourcePlanet.planetOwner), gatewayMoveDuration);
+        window.setTimeout(
+            deliverResources.bind(
+                this,
+                this.sourcePlanet.planetOwner,
+                this.isMovingCombatUnits,
+                this.movingResourceName,
+                this.amountToMove
+            ),
+            gatewayMoveDuration
+        );
     }
 }
 
@@ -241,5 +271,48 @@ export class Planet extends GameObject {
             return true;
         }
         return false;
+    }
+
+    // returns number of surviving attackers
+    fightUnits(defendingUnitName: string, numAttackers: number, attackingAdvantage: boolean): number {
+        if (this.stationedCombatUnits[defendingUnitName] > 0) {
+            this.stationedCombatUnits[defendingUnitName] -= numAttackers * (attackingAdvantage ? 2 : 1);
+            if (this.stationedCombatUnits[defendingUnitName] >= 0) {
+                return 0;
+            }
+
+            // Handle over-damage by returning units to combat poos
+            numAttackers = Math.abs(this.stationedCombatUnits[defendingUnitName]);
+            this.stationedCombatUnits[defendingUnitName] = 0;
+        }
+        return numAttackers;
+    }
+
+    DefendFrom(unitName: string, unitAmount: number, unitOwner: string) {
+        // Units fight other units of the same name first,
+        // Then they fight the units they are strong against
+        // Then they fight the units they are weak against
+        const fightOrder = unitCombatOrder[unitName];
+        
+        unitAmount = this.fightUnits(fightOrder.matched, unitAmount, false);
+        if (unitAmount === 0) { 
+            return; 
+        }
+        
+        unitAmount = this.fightUnits(fightOrder.strongAgainst, unitAmount, true);
+        if (unitAmount === 0) { 
+            return; 
+        }
+        
+        unitAmount = this.fightUnits(fightOrder.weakAgainst, unitAmount, false);
+        if (unitAmount === 0) { 
+            return; 
+        } else {
+            // If there are no units left, the planet is claimed
+            const oldOwner = this.planetOwner;
+            this.planetOwner = unitOwner;
+            this.stationedCombatUnits[unitName] += unitAmount;
+            console.log(unitOwner + ' claimed a planet from ' + oldOwner);
+        }
     }
 }
