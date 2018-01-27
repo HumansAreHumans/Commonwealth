@@ -1,9 +1,37 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import App from './App';
+import * as m from 'mithril';
+
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
-import './vis';
+import { renderData, network } from './vis';
 
-ReactDOM.render(<App />, document.getElementById('root') as HTMLElement);
 registerServiceWorker();
+
+const loop = () => {
+  requestAnimationFrame(loop);
+  m.redraw();
+};
+
+loop();
+
+m.mount(document.getElementById('ui') as Element, {
+  view() {
+    const planets = renderData();
+    console.log(planets);
+    return m(
+      'main',
+      planets.map(planet =>
+        m(
+          'div.planet',
+          {
+            style: {
+              color: 'red',
+              left: planet.x + 'px',
+              top: planet.y + 'px'
+            }
+          },
+          planet.name
+        )
+      )
+    );
+  }
+});
