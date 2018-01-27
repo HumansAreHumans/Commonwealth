@@ -5,6 +5,7 @@
   "dependencies": {
     "@tweenjs/tween.js": "^17.2.0",
     "mithril": "^1.1.6",
+    "pixi.js": "^4.7.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts-ts": "2.13.0",
@@ -20,8 +21,10 @@
     "@types/jest": "^22.1.0",
     "@types/mithril": "^1.1.12",
     "@types/node": "^9.4.0",
+    "@types/pixi.js": "^4.6.3",
     "@types/react": "^16.0.35",
     "@types/react-dom": "^16.0.3",
+    "@types/tween.js": "^16.9.0",
     "@types/vis": "^4.21.0",
     "typescript": "^2.6.2"
   }
