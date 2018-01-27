@@ -1,7 +1,7 @@
 import * as vis from 'vis';
 import { forEach, map } from './obj';
 
-interface Planet {
+export interface Planet {
   id: number;
   name: string;
   portals: number[];
