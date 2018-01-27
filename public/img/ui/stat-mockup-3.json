@@ -1,16 +1,16 @@
 { "frames": [
    {
     "filename": "stat-mockup-3 0.ase",
-    "frame": { "x": 0, "y": 0, "w": 95, "h": 28 },
+    "frame": { "x": 0, "y": 0, "w": 108, "h": 32 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 64, "y": 18, "w": 95, "h": 28 },
+    "spriteSourceSize": { "x": 64, "y": 18, "w": 108, "h": 32 },
     "sourceSize": { "w": 256, "h": 256 },
     "duration": 100
    },
    {
     "filename": "stat-mockup-3 1.ase",
-    "frame": { "x": 95, "y": 0, "w": 9, "h": 10 },
+    "frame": { "x": 108, "y": 0, "w": 9, "h": 10 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 75, "y": 35, "w": 9, "h": 10 },
@@ -19,7 +19,7 @@
    },
    {
     "filename": "stat-mockup-3 2.ase",
-    "frame": { "x": 104, "y": 0, "w": 9, "h": 10 },
+    "frame": { "x": 117, "y": 0, "w": 9, "h": 10 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 75, "y": 35, "w": 9, "h": 10 },
@@ -28,7 +28,7 @@
    },
    {
     "filename": "stat-mockup-3 3.ase",
-    "frame": { "x": 113, "y": 0, "w": 9, "h": 10 },
+    "frame": { "x": 126, "y": 0, "w": 9, "h": 10 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 75, "y": 35, "w": 9, "h": 10 },
@@ -37,7 +37,7 @@
    },
    {
     "filename": "stat-mockup-3 4.ase",
-    "frame": { "x": 122, "y": 0, "w": 74, "h": 10 },
+    "frame": { "x": 135, "y": 0, "w": 74, "h": 10 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 83, "y": 27, "w": 74, "h": 10 },
@@ -46,7 +46,7 @@
    },
    {
     "filename": "stat-mockup-3 5.ase",
-    "frame": { "x": 196, "y": 0, "w": 74, "h": 9 },
+    "frame": { "x": 209, "y": 0, "w": 74, "h": 9 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 83, "y": 28, "w": 74, "h": 9 },
@@ -55,7 +55,7 @@
    },
    {
     "filename": "stat-mockup-3 6.ase",
-    "frame": { "x": 270, "y": 0, "w": 74, "h": 10 },
+    "frame": { "x": 283, "y": 0, "w": 74, "h": 10 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 83, "y": 27, "w": 74, "h": 10 },
@@ -64,7 +64,7 @@
    },
    {
     "filename": "stat-mockup-3 7.ase",
-    "frame": { "x": 344, "y": 0, "w": 10, "h": 10 },
+    "frame": { "x": 357, "y": 0, "w": 10, "h": 10 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 65, "y": 18, "w": 10, "h": 10 },
@@ -73,7 +73,7 @@
    },
    {
     "filename": "stat-mockup-3 8.ase",
-    "frame": { "x": 354, "y": 0, "w": 10, "h": 10 },
+    "frame": { "x": 367, "y": 0, "w": 10, "h": 10 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 65, "y": 36, "w": 10, "h": 10 },
@@ -82,10 +82,37 @@
    },
    {
     "filename": "stat-mockup-3 9.ase",
-    "frame": { "x": 364, "y": 0, "w": 10, "h": 10 },
+    "frame": { "x": 377, "y": 0, "w": 10, "h": 10 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 64, "y": 27, "w": 10, "h": 10 },
+    "sourceSize": { "w": 256, "h": 256 },
+    "duration": 100
+   },
+   {
+    "filename": "stat-mockup-3 10.ase",
+    "frame": { "x": 387, "y": 0, "w": 91, "h": 12 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 81, "y": 38, "w": 91, "h": 12 },
+    "sourceSize": { "w": 256, "h": 256 },
+    "duration": 100
+   },
+   {
+    "filename": "stat-mockup-3 11.ase",
+    "frame": { "x": 478, "y": 0, "w": 10, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 162, "y": 39, "w": 10, "h": 10 },
+    "sourceSize": { "w": 256, "h": 256 },
+    "duration": 100
+   },
+   {
+    "filename": "stat-mockup-3 12.ase",
+    "frame": { "x": 488, "y": 0, "w": 9, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 162, "y": 39, "w": 9, "h": 9 },
     "sourceSize": { "w": 256, "h": 256 },
     "duration": 100
    }
@@ -95,20 +122,24 @@
   "version": "1.2.6-x64",
   "image": "C:\\Users\\lawton\\Desktop\\raspberry\\public\\img\\ui\\stat-mockup-3.png",
   "format": "I8",
-  "size": { "w": 2560, "h": 256 },
+  "size": { "w": 3328, "h": 256 },
   "scale": "1",
   "frameTags": [
    { "name": "arrow", "from": 1, "to": 3, "direction": "forward" },
    { "name": "name", "from": 4, "to": 6, "direction": "forward" },
    { "name": "icon-1", "from": 7, "to": 7, "direction": "forward" },
    { "name": "icon-2", "from": 8, "to": 8, "direction": "forward" },
-   { "name": "icon-3", "from": 9, "to": 9, "direction": "forward" }
+   { "name": "icon-3", "from": 9, "to": 9, "direction": "forward" },
+   { "name": "portal-entry", "from": 10, "to": 12, "direction": "forward" }
   ],
   "layers": [
    { "name": "frame", "opacity": 255, "blendMode": "normal" },
    { "name": "icon-1", "opacity": 255, "blendMode": "normal" },
    { "name": "icon-2", "opacity": 255, "blendMode": "normal" },
    { "name": "icon-3", "opacity": 255, "blendMode": "normal" },
+   { "name": "portal-entry", "opacity": 255, "blendMode": "normal" },
+   { "name": "portal-entry-hover", "opacity": 255, "blendMode": "normal" },
+   { "name": "portal-entry-click", "opacity": 255, "blendMode": "normal" },
    { "name": "name", "opacity": 255, "blendMode": "normal" },
    { "name": "name-hover", "opacity": 255, "blendMode": "normal" },
    { "name": "name-click", "opacity": 255, "blendMode": "normal" },
