@@ -117,14 +117,16 @@ export class Planet extends GameObject {
     gateways: Array<Gateway>;
     probe: Probe;
 
-    private planetGenStats: PlanetGenStats;
+    readonly planetGenStats: PlanetGenStats;
 
     private materialGenAcc: number;
     private combatUnitGenAcc: number;
     private gatewayMoveFreqAcc: number;
     
-    constructor(planetGen: PlanetGenStats) {
+    constructor(planetGen: PlanetGenStats, owner: string = '') {
         super();
+
+        this.planetOwner = owner;
 
         this.stationedCombatUnits = {};
         this.stationedMaterials = {};
@@ -152,10 +154,12 @@ export class Planet extends GameObject {
         this.combatUnitGenAcc += dt;
         this.gatewayMoveFreqAcc += dt;
 
+        // TODO: Handle multiple accumulations per update tick
+
         if (this.materialGenAcc >= materialGenFrequency + this.planetGenStats.materialGenFrequencyOffset) {
             // Generate resources
             Object.keys(this.planetGenStats.materialsGenerated).forEach(key => {
-                this.stationedMaterials[key] += this.planetGenStats.materialsGenerated[key] * dt;
+                this.stationedMaterials[key] += this.planetGenStats.materialsGenerated[key];
             });
 
             this.materialGenAcc = 0;
@@ -193,12 +197,15 @@ export class Planet extends GameObject {
         return;
     }
 
-    AddGatewayToPlanet(otherPlanet: Planet) {
+    AddGatewayToPlanet(otherPlanet: Planet): boolean {
         if (this.planetGenStats.maxGateways > this.gateways.length
         && otherPlanet.planetGenStats.maxGateways > otherPlanet.gateways.length) {
             this.gateways.push(new Gateway(this, otherPlanet));
+            otherPlanet.gateways.push(new Gateway(otherPlanet, this));
+            return true;
         } else {
             // Not enough open gateway slots
+            return false;
         }
     }
 
@@ -209,24 +216,30 @@ export class Planet extends GameObject {
     }
 
     // Configure the gateway to move combat units
-    MoveCombatUnitsToPlanet(otherPlanet: Planet, resource: string) {
+    // true if gateway was successfully configured
+    MoveCombatUnitsToPlanet(otherPlanet: Planet, resource: string): boolean {
         // Search for a gateway to the destination planet   
         const gateway = this.gateways.find(val => val.destinationPlanet === otherPlanet);
 
         // Configure it to send the desired resource
         if (gateway !== undefined) {
             gateway.Configure(true, resource);
+            return true;
         }
+        return false;
     }
 
     // Configure the gateway to move resources
-    MoveMaterialToPlanet(otherPlanet: Planet, resource: string) {
+    // true if gateway was successfully configured
+    MoveMaterialToPlanet(otherPlanet: Planet, resource: string): boolean {
         // Search for a gateway to the destination planet   
         const gateway = this.gateways.find(val => val.destinationPlanet === otherPlanet);
     
         // Configure it to send the desired resource
         if (gateway !== undefined) {
             gateway.Configure(false, resource);
+            return true;
         }
+        return false;
     }
 }

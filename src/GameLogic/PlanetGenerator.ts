@@ -4,7 +4,7 @@ const randomInt = (min: number, max: number) => {
     return Math.round(min + Math.random() * max);
 };
 
-export const GeneratePlanet = (): Planet => {
+export const GeneratePlanet = (owner: string = ''): Planet => {
     const materialToGenerate = materialNames[randomInt(0, materialNames.length - 1)];
     const materialsGenerated = {};
     materialsGenerated[materialToGenerate] = 1;
@@ -22,7 +22,7 @@ export const GeneratePlanet = (): Planet => {
         gatewayMoveFrequencyOffset: 0.00
     };
 
-    return new Planet(settings);
+    return new Planet(settings, owner);
 };
 
 export const GeneratePlanetGraph = (numberOfNodes: number): Array<Planet> => {

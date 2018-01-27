@@ -1,9 +1,14 @@
 import * as React from 'react';
 import './App.css';
+import GameUI from './GameUI';
 
 class App extends React.Component {
   render() {
-    return <div className="App" />;
+    return ( 
+        <div className="App">
+            <GameUI />
+        </div> 
+    );
   }
 }
 
