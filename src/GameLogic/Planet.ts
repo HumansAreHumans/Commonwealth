@@ -15,6 +15,23 @@ export const materialNameToCombatUnit = {};
 materialNames.forEach((res, i) => {
     materialNameToCombatUnit[res] = combatUnitNames[i];
 });
+const mod = (v: number, m: number) => {
+    return (v + m) % m;
+};
+
+export interface CombatOrder {
+    matched: string;
+    strongAgainst: string;
+    weakAgainst: string;
+}
+export const unitCombatOrder: {[key: string]: CombatOrder} = { };
+combatUnitNames.forEach((unit, i) => {
+    unitCombatOrder[unit] = {
+        matched: unit,
+        strongAgainst: combatUnitNames[mod(i - 1, combatUnitNames.length)],
+        weakAgainst: combatUnitNames[mod(i + 1, combatUnitNames.length)],
+    };
+});
 
 //////////////////////////
 // END OF CONST GAME DATA
@@ -77,25 +94,38 @@ export class Gateway {
             }
         }
 
-        const deliverResources = (sourceOwner: string) => {
-            if (this.isMovingCombatUnits) {
+        const deliverResources = (
+            sourceOwner: string,
+            isMovingCombatUnits: boolean,
+            resourceName: string,
+            amountToMove: number,
+        ) => {
+            if (isMovingCombatUnits) {
                 // If the owners are the same, deliver units
                 if (this.destinationPlanet.planetOwner === sourceOwner) {
-                    this.destinationPlanet.stationedCombatUnits[this.movingResourceName] += this.amountToMove;
+                    this.destinationPlanet.stationedCombatUnits[resourceName] += amountToMove;
                 } else {
                     // Do combat stuff
-                    // TODO: COMBAT
-                    // TODO: Territory claiming
+                    this.destinationPlanet.DefendFrom(resourceName, amountToMove, sourceOwner);
                 }
                 
             } else {
                 // Must be moving resources
-                this.destinationPlanet.stationedMaterials[this.movingResourceName] += this.amountToMove;
+                this.destinationPlanet.stationedMaterials[resourceName] += amountToMove;
             }
         };
 
         // Kickoff timer to give resources to other planet
-        window.setTimeout(deliverResources.bind(this, this.sourcePlanet.planetOwner), gatewayMoveDuration);
+        window.setTimeout(
+            deliverResources.bind(
+                this,
+                this.sourcePlanet.planetOwner,
+                this.isMovingCombatUnits,
+                this.movingResourceName,
+                this.amountToMove
+            ),
+            gatewayMoveDuration
+        );
     }
 }
 
@@ -117,14 +147,16 @@ export class Planet extends GameObject {
     gateways: Array<Gateway>;
     probe: Probe;
 
-    private planetGenStats: PlanetGenStats;
+    readonly planetGenStats: PlanetGenStats;
 
     private materialGenAcc: number;
     private combatUnitGenAcc: number;
     private gatewayMoveFreqAcc: number;
     
-    constructor(planetGen: PlanetGenStats) {
+    constructor(planetGen: PlanetGenStats, owner: string = '') {
         super();
+
+        this.planetOwner = owner;
 
         this.stationedCombatUnits = {};
         this.stationedMaterials = {};
@@ -152,10 +184,12 @@ export class Planet extends GameObject {
         this.combatUnitGenAcc += dt;
         this.gatewayMoveFreqAcc += dt;
 
+        // TODO: Handle multiple accumulations per update tick
+
         if (this.materialGenAcc >= materialGenFrequency + this.planetGenStats.materialGenFrequencyOffset) {
             // Generate resources
             Object.keys(this.planetGenStats.materialsGenerated).forEach(key => {
-                this.stationedMaterials[key] += this.planetGenStats.materialsGenerated[key] * dt;
+                this.stationedMaterials[key] += this.planetGenStats.materialsGenerated[key];
             });
 
             this.materialGenAcc = 0;
@@ -193,12 +227,15 @@ export class Planet extends GameObject {
         return;
     }
 
-    AddGatewayToPlanet(otherPlanet: Planet) {
+    AddGatewayToPlanet(otherPlanet: Planet): boolean {
         if (this.planetGenStats.maxGateways > this.gateways.length
         && otherPlanet.planetGenStats.maxGateways > otherPlanet.gateways.length) {
             this.gateways.push(new Gateway(this, otherPlanet));
+            otherPlanet.gateways.push(new Gateway(otherPlanet, this));
+            return true;
         } else {
             // Not enough open gateway slots
+            return false;
         }
     }
 
@@ -209,24 +246,73 @@ export class Planet extends GameObject {
     }
 
     // Configure the gateway to move combat units
-    MoveCombatUnitsToPlanet(otherPlanet: Planet, resource: string) {
+    // true if gateway was successfully configured
+    MoveCombatUnitsToPlanet(otherPlanet: Planet, resource: string): boolean {
         // Search for a gateway to the destination planet   
         const gateway = this.gateways.find(val => val.destinationPlanet === otherPlanet);
 
         // Configure it to send the desired resource
         if (gateway !== undefined) {
             gateway.Configure(true, resource);
+            return true;
         }
+        return false;
     }
 
     // Configure the gateway to move resources
-    MoveMaterialToPlanet(otherPlanet: Planet, resource: string) {
+    // true if gateway was successfully configured
+    MoveMaterialToPlanet(otherPlanet: Planet, resource: string): boolean {
         // Search for a gateway to the destination planet   
         const gateway = this.gateways.find(val => val.destinationPlanet === otherPlanet);
     
         // Configure it to send the desired resource
         if (gateway !== undefined) {
             gateway.Configure(false, resource);
+            return true;
+        }
+        return false;
+    }
+
+    // returns number of surviving attackers
+    fightUnits(defendingUnitName: string, numAttackers: number, attackingAdvantage: boolean): number {
+        if (this.stationedCombatUnits[defendingUnitName] > 0) {
+            this.stationedCombatUnits[defendingUnitName] -= numAttackers * (attackingAdvantage ? 2 : 1);
+            if (this.stationedCombatUnits[defendingUnitName] >= 0) {
+                return 0;
+            }
+
+            // Handle over-damage by returning units to combat poos
+            numAttackers = Math.abs(this.stationedCombatUnits[defendingUnitName]);
+            this.stationedCombatUnits[defendingUnitName] = 0;
+        }
+        return numAttackers;
+    }
+
+    DefendFrom(unitName: string, unitAmount: number, unitOwner: string) {
+        // Units fight other units of the same name first,
+        // Then they fight the units they are strong against
+        // Then they fight the units they are weak against
+        const fightOrder = unitCombatOrder[unitName];
+        
+        unitAmount = this.fightUnits(fightOrder.matched, unitAmount, false);
+        if (unitAmount === 0) { 
+            return; 
+        }
+        
+        unitAmount = this.fightUnits(fightOrder.strongAgainst, unitAmount, true);
+        if (unitAmount === 0) { 
+            return; 
+        }
+        
+        unitAmount = this.fightUnits(fightOrder.weakAgainst, unitAmount, false);
+        if (unitAmount === 0) { 
+            return; 
+        } else {
+            // If there are no units left, the planet is claimed
+            const oldOwner = this.planetOwner;
+            this.planetOwner = unitOwner;
+            this.stationedCombatUnits[unitName] += unitAmount;
+            console.log(unitOwner + ' claimed a planet from ' + oldOwner);
         }
     }
 }

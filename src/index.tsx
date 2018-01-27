@@ -1,6 +1,6 @@
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
-import './GameState';
+import './GameLogic/Bootstrap';
 import './vis';
 import './pixi';
 
