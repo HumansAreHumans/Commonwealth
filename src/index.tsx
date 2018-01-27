@@ -1,10 +1,7 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import './GameLogic/Bootstrap';
-import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
+import './GameLogic/Bootstrap';
 import './vis';
+import './pixi';
 
-ReactDOM.render(<App />, document.getElementById('root') as HTMLElement);
 registerServiceWorker();

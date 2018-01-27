@@ -1,73 +1,101 @@
 import * as vis from 'vis';
+import { forEach, map } from './obj';
 
 interface Planet {
-  portals: string[];
+  id: number;
+  name: string;
+  portals: number[];
   resources: string[];
 }
-
-type PlanetDict = { [key: string]: Planet };
-const Planets: PlanetDict = {
-  Foo: {
-    portals: ['Bar', 'Poop'],
+const Planets: Planet[] = [
+  {
+    name: 'Foo',
+    id: 0,
+    portals: [1, 2],
     resources: []
   },
-  Bar: {
-    portals: ['Foo', 'Krypton'],
+  {
+    name: 'Doop',
+    id: 1,
+    portals: [2],
     resources: []
   },
-  Krypton: {
-    portals: ['Poop', 'Bar'],
+  {
+    name: 'Loop',
+    id: 2,
+    portals: [3],
     resources: []
   },
-  Poop: {
-    portals: ['Krypton', 'Foo'],
+  {
+    name: 'Toop',
+    id: 3,
+    portals: [1],
     resources: []
   }
-};
+];
 
 // create a network
 const container = document.getElementById('networkgraph') as HTMLElement;
 
-type ForEachFn = (value: any, key?: string) => void;
-type ReduceFn = (result: any, value: any, key?: string) => any;
-type MapFn = (value: any, key?: string) => any;
-
-const forEach = (fn: ForEachFn) => (obj: any) =>
-  Object.keys(obj).forEach(key => fn(obj[key], key));
-const reduce = (fn: ReduceFn) => (defaultVal: any) => (obj: any) =>
-  Object.keys(obj).reduce((val, key) => fn(val, obj[key], key), defaultVal);
-const map = (fn: MapFn) => (obj: any) =>
-  Object.keys(obj).map(key => fn(obj[key], key));
-
-const getNodes = (planets: PlanetDict) =>
+const getNodes = (planets: Planet[]) =>
   new vis.DataSet(
-    map((value, key) => ({
-      id: key,
-      label: key
-    }))(planets)
+    planets.map(planet => ({
+      id: planet.id,
+      label: '',
+      image: '/img/planet.png',
+      shape: 'circularImage'
+    }))
   );
 
-const getEdges = (planets: PlanetDict) => {
+const getEdges = (planets: Planet[]) => {
   const edges: any = [];
-  forEach((planet: Planet, name: string) => {
+
+  planets.forEach(planet => {
     planet.portals.forEach(foreignPlanet => {
       edges.push({
-        from: name,
+        from: planet.id,
         to: foreignPlanet
       });
     });
-  })(planets);
+  });
   return new vis.DataSet(edges);
 };
 
-const getData = (data: PlanetDict) => ({
+const getData = (data: Planet[]) => ({
   nodes: getNodes(data),
   edges: getEdges(data)
 });
 
-const options = {};
+const options: vis.Options = {
+  nodes: {
+    color: {
+      border: 'black',
+      highlight: 'white'
+    },
+    font: {
+      face: 'Press Start 2P',
+      color: 'white',
+      strokeColor: 'black',
+      strokeWidth: 2
+    }
+  },
+  edges: {
+    smooth: false,
+    length: 500,
+    shadow: true,
+    color: {
+      color: 'black'
+    }
+  },
+  physics: {
+    barnesHut: {
+      avoidOverlap: 0.5,
+      centralGravity: 0
+    }
+  }
+};
 // initialize your network!
-const network = new vis.Network(container, getData(Planets), options);
+export const network = new vis.Network(container, getData(Planets), options);
 
 // Shiz
 const doResize = () =>
@@ -82,3 +110,24 @@ window.addEventListener('keypress', (ev: KeyboardEvent) => {
     network.clusterOutliers();
   }
 });
+
+interface PlanetRender extends Planet {
+  x: number;
+  y: number;
+}
+
+export const renderData = (): PlanetRender[] =>
+  Planets.map(planet => {
+    const pos = network.canvasToDOM(
+      network.getPositions([planet.id])[planet.id]
+    );
+    const anyNet = network as any;
+
+    return Object.assign(
+      {
+        x: pos.x,
+        y: pos.y
+      },
+      planet
+    );
+  });
