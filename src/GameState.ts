@@ -4,16 +4,19 @@ import { GeneratePlanet } from './PlanetGenerator';
 export default class GameState {
     private GameObjects: Array<GameObject>;
     private GameObjectById: {[key: number]: GameObject};
+    private hasStarted: boolean;
 
     constructor() {
         this.GameObjectById = {};
         this.GameObjects = new Array<GameObject>();
+        this.hasStarted = false;
     }
 
     Start() {
         this.GameObjects.forEach(go => {
             go.Start();
         });
+        this.hasStarted = true;
     }
 
     Update(dt: number) {
@@ -31,6 +34,10 @@ export default class GameState {
     Add(go: GameObject) {
         this.GameObjects.push(go);
         this.GameObjectById[go.id] = go;
+
+        if (this.hasStarted) {
+            go.Start();
+        }
     }
 
     GetGameObjectById(id: number): GameObject {
