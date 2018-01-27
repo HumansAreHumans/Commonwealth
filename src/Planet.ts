@@ -54,13 +54,14 @@ export class Gateway {
 
         // Request resources from planet
         if (this.isMovingCombatUnits) {
+            // Moving combat units
             if (this.sourcePlanet.stationedCombatUnits[this.movingResourceName] > this.amountToMove) {
                 this.sourcePlanet.stationedCombatUnits[this.movingResourceName] -= this.amountToMove;
             } else {
                 return;
             }
         } else {
-            // Must be moving resources
+            // Must be moving materials
             if (this.sourcePlanet.stationedMaterials[this.movingResourceName] > this.amountToMove) {
                 this.sourcePlanet.stationedMaterials[this.movingResourceName] -= this.amountToMove;
             } else {
@@ -76,6 +77,7 @@ export class Gateway {
                 } else {
                     // Do combat stuff
                     // TODO: COMBAT
+                    // TODO: Territory claiming
                 }
                 
             } else {
@@ -190,8 +192,6 @@ export class Planet extends GameObject {
     }
 
     ProbePlanet(target: Planet) {
-        // Potentially returns an entire graph of connected planets
-        // Should probably just hook in a call to the planet gen here
         
         // TODO: Destroy the planet I am already probing, if necessary
         this.probe = new Probe(this, target); 

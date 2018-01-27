@@ -24,3 +24,8 @@ export const GeneratePlanet = (): Planet => {
 
     return new Planet(settings);
 };
+
+export const GeneratePlanetGraph = (numberOfNodes: number): Array<Planet> => {
+    // TODO: add planet collection generation
+    return new Array<Planet>();
+};
