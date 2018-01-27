@@ -41,7 +41,7 @@ const getNodes = (planets: Planet[]) =>
   new vis.DataSet(
     planets.map(planet => ({
       id: planet.id,
-      label: planet.name,
+      label: '',
       image: '/img/planet.png',
       shape: 'circularImage'
     }))
@@ -80,6 +80,7 @@ const options: vis.Options = {
     }
   },
   edges: {
+    length: 500,
     color: {
       color: 'black'
     }
@@ -109,7 +110,6 @@ interface PlanetRender extends Planet {
 
 export const renderData = (): PlanetRender[] =>
   Planets.map(planet => {
-    console.log(network.getPositions([planet.id]));
     const pos = network.canvasToDOM(
       network.getPositions([planet.id])[planet.id]
     );

@@ -24,12 +24,11 @@ m.mount(document.getElementById('ui') as Element, {
           'div.planet',
           {
             style: {
-              color: 'red',
               left: planet.x + 'px',
               top: planet.y + 'px'
             }
           },
-          planet.name
+          m('div.planet-name', planet.name)
         )
       )
     );

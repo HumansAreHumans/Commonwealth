@@ -21,4 +21,15 @@ body {
 
 .planet {
   position: absolute;
+  background-image: url('/img/stat-mockup.png');
+  width: 512px;
+  margin-left: -120px;
+  margin-top: -96px;
+  height: 192px;
+  transform: scale(0.5);
+}
+
+.planet-name {
+  margin: 22px 55px;
+  font-size: 20px;
 }
