@@ -1,4 +1,5 @@
 import * as vis from 'vis';
+import { forEach, map } from './obj';
 
 interface Planet {
   portals: string[];
@@ -12,15 +13,15 @@ const Planets: PlanetDict = {
     resources: []
   },
   Bar: {
-    portals: ['Foo', 'Krypton'],
+    portals: ['Krypton'],
     resources: []
   },
   Krypton: {
-    portals: ['Poop', 'Bar'],
+    portals: ['Poop', 'Foo'],
     resources: []
   },
   Poop: {
-    portals: ['Krypton', 'Foo'],
+    portals: [],
     resources: []
   }
 };
@@ -28,22 +29,13 @@ const Planets: PlanetDict = {
 // create a network
 const container = document.getElementById('networkgraph') as HTMLElement;
 
-type ForEachFn = (value: any, key?: string) => void;
-type ReduceFn = (result: any, value: any, key?: string) => any;
-type MapFn = (value: any, key?: string) => any;
-
-const forEach = (fn: ForEachFn) => (obj: any) =>
-  Object.keys(obj).forEach(key => fn(obj[key], key));
-const reduce = (fn: ReduceFn) => (defaultVal: any) => (obj: any) =>
-  Object.keys(obj).reduce((val, key) => fn(val, obj[key], key), defaultVal);
-const map = (fn: MapFn) => (obj: any) =>
-  Object.keys(obj).map(key => fn(obj[key], key));
-
 const getNodes = (planets: PlanetDict) =>
   new vis.DataSet(
     map((value, key) => ({
       id: key,
-      label: key
+      label: key,
+      image: '/img/planet.png',
+      shape: 'circularImage'
     }))(planets)
   );
 
