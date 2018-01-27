@@ -1,4 +1,5 @@
 import GameObject from './GameObject';
+import { GeneratePlanet } from './PlanetGenerator';
 
 export default class GameState {
     private GameObjects: Array<GameObject>;
@@ -39,7 +40,16 @@ export default class GameState {
 
 const Game = new GameState();
 const tickRate = 0.016 * 1000;
+
 // Add initial objects here
+const planet1 = GeneratePlanet();
+const planet2 = GeneratePlanet();
+const planet3 = GeneratePlanet();
+Game.Add(planet1);
+Game.Add(planet2);
+Game.Add(planet3);
+
+planet1.AddGatewayToPlanet(planet2);
 
 // Start game state
 Game.Start();
@@ -58,4 +68,3 @@ const updateLoop = () => {
 };
 
 window.setInterval(updateLoop, tickRate);
-
