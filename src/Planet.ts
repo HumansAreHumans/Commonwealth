@@ -5,12 +5,22 @@ const combatUnitGenFrequency = 0.25;
 const gatewayMoveFrequency = 0.25;
 const gatewayMoveDuration = 1.0;
 
-const combatUnitNames = ['unitOne', 'unitTwo', 'unitThree'];
-const materialNames = ['resourceOne', 'resourceTwo', 'resourceThree'];
-const materialNameToCombatUnit = {};
+export const combatUnitNames = ['unitOne', 'unitTwo', 'unitThree'];
+export const materialNames = ['materialOne', 'materialTwo', 'materialThree'];
+export const materialNameToCombatUnit = {};
 materialNames.forEach((res, i) => {
     materialNameToCombatUnit[res] = combatUnitNames[i];
 });
+
+export class Probe {
+    sourcePlanet: Planet;
+    destinationPlanet: Planet;
+
+    constructor(sourcePlanet: Planet, destinationPlanet: Planet) {
+        this.sourcePlanet = sourcePlanet;
+        this.destinationPlanet = destinationPlanet;
+    }
+}
 
 export class Gateway {
     sourcePlanet: Planet;
@@ -58,17 +68,24 @@ export class Gateway {
             }
         }
 
-        const deliverResources = () => {
+        const deliverResources = (sourceOwner: string) => {
             if (this.isMovingCombatUnits) {
-                this.destinationPlanet.stationedCombatUnits[this.movingResourceName] -= this.amountToMove;
+                // If the owners are the same, deliver units
+                if (this.destinationPlanet.planetOwner === sourceOwner) {
+                    this.destinationPlanet.stationedCombatUnits[this.movingResourceName] += this.amountToMove;
+                } else {
+                    // Do combat stuff
+                    // TODO: COMBAT
+                }
+                
             } else {
                 // Must be moving resources
-                this.destinationPlanet.stationedMaterials[this.movingResourceName] -= this.amountToMove;
+                this.destinationPlanet.stationedMaterials[this.movingResourceName] += this.amountToMove;
             }
         };
 
         // Kickoff timer to give resources to other planet
-        window.setTimeout(deliverResources, gatewayMoveDuration);
+        window.setTimeout(deliverResources.bind(this, this.sourcePlanet.planetOwner), gatewayMoveDuration);
     }
 }
 
@@ -88,7 +105,7 @@ export class Planet extends GameObject {
     stationedMaterials: {};
     
     gateways: Array<Gateway>;
-    probe: Gateway;
+    probe: Probe;
 
     private planetGenStats: PlanetGenStats;
 
@@ -172,10 +189,12 @@ export class Planet extends GameObject {
         }
     }
 
-    ProbeForPlanet() {
+    ProbePlanet(target: Planet) {
         // Potentially returns an entire graph of connected planets
         // Should probably just hook in a call to the planet gen here
-        return;
+        
+        // TODO: Destroy the planet I am already probing, if necessary
+        this.probe = new Probe(this, target); 
     }
 
     // Configure the gateway to move combat units
