@@ -80,9 +80,17 @@ const options: vis.Options = {
     }
   },
   edges: {
+    smooth: false,
     length: 500,
+    shadow: true,
     color: {
       color: 'black'
+    }
+  },
+  physics: {
+    barnesHut: {
+      avoidOverlap: 0.5,
+      centralGravity: 0
     }
   }
 };
