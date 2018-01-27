@@ -1,5 +1,9 @@
 import GameObject from './GameObject';
 
+////////////////////////
+// CONST GAME DATA
+////////////////////////
+
 const materialGenFrequency = 0.25;
 const combatUnitGenFrequency = 0.25;
 const gatewayMoveFrequency = 0.25;
@@ -11,6 +15,10 @@ export const materialNameToCombatUnit = {};
 materialNames.forEach((res, i) => {
     materialNameToCombatUnit[res] = combatUnitNames[i];
 });
+
+//////////////////////////
+// END OF CONST GAME DATA
+//////////////////////////
 
 export class Probe {
     sourcePlanet: Planet;
@@ -117,6 +125,9 @@ export class Planet extends GameObject {
     
     constructor(planetGen: PlanetGenStats) {
         super();
+
+        this.stationedCombatUnits = {};
+        this.stationedMaterials = {};
 
         this.planetGenStats = planetGen;
         this.materialGenAcc = 0;

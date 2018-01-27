@@ -5,7 +5,7 @@ const randomInt = (min: number, max: number) => {
 };
 
 export const GeneratePlanet = (): Planet => {
-    const materialToGenerate = materialNames[randomInt(0, materialNames.length)];
+    const materialToGenerate = materialNames[randomInt(0, materialNames.length - 1)];
     const materialsGenerated = {};
     materialsGenerated[materialToGenerate] = 1;
 
