@@ -5,7 +5,6 @@ import { renderData, network, Planet } from '../vis';
 import * as TWEEN from '@tweenjs/tween.js';
 
 Loader.load((loader: any, resources: any) => {
-  console.log(resources.planet);
   const sprites: { [key: string]: PIXI.Container } = {};
 
   const createFrame = (planet: Planet) => {
