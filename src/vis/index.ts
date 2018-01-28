@@ -58,7 +58,9 @@ const options: vis.Options = {
     shadow: true,
     width: 5,
     color: {
-      color: 'white'
+      color: 'gray',
+      hover: 'white',
+      highlight: 'white'
     }
   },
   physics: {
