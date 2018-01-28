@@ -59,9 +59,7 @@ Loader.load((loader: any, resources: any) => {
     const namePlate = new PIXI.Sprite(sheet[4]);
     const bg = new PIXI.Sprite(sheet[16]);
     const portalNew = makeButton(13, () => {
-      const fplanet = GeneratePlanet();
-      Game.Add(fplanet);
-      planet.ProbePlanet(fplanet);
+      planet.ProbePlanet();
     });
 
     materialNames.forEach((material, i) => {
@@ -98,6 +96,9 @@ Loader.load((loader: any, resources: any) => {
   app.ticker.add(dt => {
     const planets = renderData();
     planets.forEach(planet => {
+      if (planet === undefined) {
+        return;
+      }
       if (!sprites[planet.id]) {
         sprites[planet.id] = createPlanet(planet);
         app.stage.addChild(sprites[planet.id]);
