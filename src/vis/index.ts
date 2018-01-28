@@ -110,7 +110,8 @@ const BindEntityEvents = (entity: Planet) => {
     entity.On('probeCreated', (data: any) => {
         networkData.edges.add([{
             from: data.sourcePlanet.id,
-            to: data.destinationPlanet.id
+            to: data.destinationPlanet.id,
+            dashes: true
         }]);
     });
 
