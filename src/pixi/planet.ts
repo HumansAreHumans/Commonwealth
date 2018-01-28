@@ -30,9 +30,9 @@ Loader.load((loader: any, resources: any) => {
     });
 
     portalNew.on('click', () => {
-      const fplanet = GeneratePlanet();
-      Game.Add(fplanet);
-      planet.ProbePlanet(fplanet);
+        const pl = Game.GetGameObjectById(planet.id);
+        pl.ProbePlanet();
+      
     });
 
     container.scale.set(3);
@@ -58,6 +58,9 @@ Loader.load((loader: any, resources: any) => {
   app.ticker.add(dt => {
     const planets = renderData();
     planets.forEach(planet => {
+      if (planet === undefined) {
+        return;
+      }
       if (!sprites[planet.id]) {
         sprites[planet.id] = createPlanet(planet);
         app.stage.addChild(sprites[planet.id]);
