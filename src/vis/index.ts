@@ -4,13 +4,18 @@ import { Game, Planet } from '../GameLogic';
 
 // create a network
 const container = document.getElementById('networkgraph') as HTMLElement;
+const planetTexs = ['medium', 'small', 'large'];
+const getRandomPlanet = () =>
+  planetTexs[Math.round(Math.random() * (planetTexs.length - 1))];
+const getPlanetTex = () => `/img/planets/${getRandomPlanet()}.png`;
 
 const getNodes = (planets: Planet[]) =>
   new vis.DataSet(
     planets.map(planet => ({
       id: planet.id,
       label: '',
-      image: '/img/planet.png',
+      image: getPlanetTex(),
+      size: 15 + Math.random() * 20,
       shape: 'circularImage'
     }))
   );
@@ -51,8 +56,11 @@ const options: vis.Options = {
     smooth: false,
     length: 500,
     shadow: true,
+    width: 5,
     color: {
-      color: 'black'
+      color: 'gray',
+      hover: 'white',
+      highlight: 'white'
     }
   },
   physics: {
@@ -64,11 +72,7 @@ const options: vis.Options = {
 };
 // initialize your network!
 let networkData = getData(Game.planets);
-export const network = new vis.Network(
-  container,
-  networkData,
-  options
-);
+export const network = new vis.Network(container, networkData, options);
 
 // Shiz
 const doResize = () =>
@@ -99,50 +103,58 @@ export const renderData = (): Planet[] =>
 
 // Bind to planet creation event
 const BindEntityEvents = (entity: Planet) => {
-    
-    entity.On('gatewayCreated', (data: any) => {
-        networkData.edges.add([{
-            from: data.sourcePlanet.id,
-            to: data.destinationPlanet.id
-        }]);
-    });
+  entity.On('gatewayCreated', (data: any) => {
+    networkData.edges.add([
+      {
+        from: data.sourcePlanet.id,
+        to: data.destinationPlanet.id
+      }
+    ]);
+  });
 
     entity.On('probeCreated', (data: any) => {
-        networkData.edges.add([{
-            from: data.sourcePlanet.id,
-            to: data.destinationPlanet.id,
-            dashes: true
-        }]);
+        networkData.edges.add([
+            {
+                from: data.sourcePlanet.id,
+                to: data.destinationPlanet.id,
+                dashes: true
+            }
+        ]);
     });
 
-    entity.On('probeDestroyed', (data: any) => {
-        let probeId: vis.IdType = -1;
-        networkData.edges.forEach((item: any, id) => {
-            if (item.from === data.sourcePlanet.id
-            && item.to === data.destinationPlanet.id) {
-                probeId = id;
-            }
-        });
-        
-        if (probeId !== -1) {
-            networkData.edges.remove({id: probeId} as any);
-        }
+  entity.On('probeDestroyed', (data: any) => {
+    let probeId: vis.IdType = -1;
+    networkData.edges.forEach((item: any, id) => {
+      if (
+        item.from === data.sourcePlanet.id &&
+        item.to === data.destinationPlanet.id
+      ) {
+        probeId = id;
+      }
     });
+
+    if (probeId !== -1) {
+      networkData.edges.remove({ id: probeId } as any);
+    }
+  });
 };
 
 Game.onEntityAdded((entity: Planet) => {
-    networkData.nodes.add([{
-        id: entity.id,
-        label: '',
-        image: '/img/planet.png',
-        shape: 'circularImage'
-    }]);
+  networkData.nodes.add([
+    {
+      id: entity.id,
+      label: '',
+      image: getPlanetTex(),
+      size: 15 + Math.random() * 20,
+      shape: 'circularImage'
+    }
+  ]);
 
-    BindEntityEvents(entity);
+  BindEntityEvents(entity);
 });
 
 Game.onEntityRemoved((entity: Planet) => {
-    networkData.nodes.remove({id: entity.id} as any);
+  networkData.nodes.remove({ id: entity.id } as any);
 });
 
 Game.planets.forEach(planet => BindEntityEvents(planet));
