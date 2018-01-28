@@ -18,6 +18,7 @@ export class GameState {
     this.GameObjectById = {};
     this.GameObjects = [];
     this.hasStarted = false;
+    this.addedHandlers = [];
   }
 
   Start() {
