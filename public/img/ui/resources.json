@@ -282,7 +282,7 @@
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.6-x64",
-  "image": ".\\ui\\resources.png",
+  "image": ".\\resources.png",
   "format": "I8",
   "size": { "w": 248, "h": 8 },
   "scale": "1",

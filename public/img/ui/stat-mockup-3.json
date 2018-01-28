@@ -156,7 +156,7 @@
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.6-x64",
-  "image": ".\\ui\\stat-mockup-3.png",
+  "image": ".\\stat-mockup-3.png",
   "format": "I8",
   "size": { "w": 1836, "h": 32 },
   "scale": "1",
