@@ -1,6 +1,5 @@
-{ "frames": [
-   {
-    "filename": "stat-mockup-3 0.ase",
+{ "frames": {
+   "stat-mockup-3 0.ase": {
     "frame": { "x": 0, "y": 0, "w": 108, "h": 32 },
     "rotated": false,
     "trimmed": false,
@@ -8,8 +7,7 @@
     "sourceSize": { "w": 108, "h": 32 },
     "duration": 100
    },
-   {
-    "filename": "stat-mockup-3 1.ase",
+   "stat-mockup-3 1.ase": {
     "frame": { "x": 108, "y": 0, "w": 9, "h": 10 },
     "rotated": false,
     "trimmed": true,
@@ -17,8 +15,7 @@
     "sourceSize": { "w": 108, "h": 32 },
     "duration": 100
    },
-   {
-    "filename": "stat-mockup-3 2.ase",
+   "stat-mockup-3 2.ase": {
     "frame": { "x": 117, "y": 0, "w": 9, "h": 10 },
     "rotated": false,
     "trimmed": true,
@@ -26,8 +23,7 @@
     "sourceSize": { "w": 108, "h": 32 },
     "duration": 100
    },
-   {
-    "filename": "stat-mockup-3 3.ase",
+   "stat-mockup-3 3.ase": {
     "frame": { "x": 126, "y": 0, "w": 9, "h": 10 },
     "rotated": false,
     "trimmed": true,
@@ -35,8 +31,7 @@
     "sourceSize": { "w": 108, "h": 32 },
     "duration": 100
    },
-   {
-    "filename": "stat-mockup-3 4.ase",
+   "stat-mockup-3 4.ase": {
     "frame": { "x": 135, "y": 0, "w": 74, "h": 10 },
     "rotated": false,
     "trimmed": true,
@@ -44,8 +39,7 @@
     "sourceSize": { "w": 108, "h": 32 },
     "duration": 100
    },
-   {
-    "filename": "stat-mockup-3 5.ase",
+   "stat-mockup-3 5.ase": {
     "frame": { "x": 209, "y": 0, "w": 74, "h": 9 },
     "rotated": false,
     "trimmed": true,
@@ -53,8 +47,7 @@
     "sourceSize": { "w": 108, "h": 32 },
     "duration": 100
    },
-   {
-    "filename": "stat-mockup-3 6.ase",
+   "stat-mockup-3 6.ase": {
     "frame": { "x": 283, "y": 0, "w": 74, "h": 10 },
     "rotated": false,
     "trimmed": true,
@@ -62,8 +55,7 @@
     "sourceSize": { "w": 108, "h": 32 },
     "duration": 100
    },
-   {
-    "filename": "stat-mockup-3 7.ase",
+   "stat-mockup-3 7.ase": {
     "frame": { "x": 357, "y": 0, "w": 10, "h": 10 },
     "rotated": false,
     "trimmed": true,
@@ -71,8 +63,7 @@
     "sourceSize": { "w": 108, "h": 32 },
     "duration": 100
    },
-   {
-    "filename": "stat-mockup-3 8.ase",
+   "stat-mockup-3 8.ase": {
     "frame": { "x": 367, "y": 0, "w": 10, "h": 10 },
     "rotated": false,
     "trimmed": true,
@@ -80,8 +71,7 @@
     "sourceSize": { "w": 108, "h": 32 },
     "duration": 100
    },
-   {
-    "filename": "stat-mockup-3 9.ase",
+   "stat-mockup-3 9.ase": {
     "frame": { "x": 377, "y": 0, "w": 10, "h": 10 },
     "rotated": false,
     "trimmed": true,
@@ -89,8 +79,7 @@
     "sourceSize": { "w": 108, "h": 32 },
     "duration": 100
    },
-   {
-    "filename": "stat-mockup-3 10.ase",
+   "stat-mockup-3 10.ase": {
     "frame": { "x": 387, "y": 0, "w": 91, "h": 12 },
     "rotated": false,
     "trimmed": true,
@@ -98,8 +87,7 @@
     "sourceSize": { "w": 108, "h": 32 },
     "duration": 100
    },
-   {
-    "filename": "stat-mockup-3 11.ase",
+   "stat-mockup-3 11.ase": {
     "frame": { "x": 478, "y": 0, "w": 10, "h": 10 },
     "rotated": false,
     "trimmed": true,
@@ -107,8 +95,7 @@
     "sourceSize": { "w": 108, "h": 32 },
     "duration": 100
    },
-   {
-    "filename": "stat-mockup-3 12.ase",
+   "stat-mockup-3 12.ase": {
     "frame": { "x": 488, "y": 0, "w": 9, "h": 9 },
     "rotated": false,
     "trimmed": true,
@@ -116,8 +103,7 @@
     "sourceSize": { "w": 108, "h": 32 },
     "duration": 100
    },
-   {
-    "filename": "stat-mockup-3 13.ase",
+   "stat-mockup-3 13.ase": {
     "frame": { "x": 497, "y": 0, "w": 10, "h": 10 },
     "rotated": false,
     "trimmed": true,
@@ -125,8 +111,7 @@
     "sourceSize": { "w": 108, "h": 32 },
     "duration": 100
    },
-   {
-    "filename": "stat-mockup-3 14.ase",
+   "stat-mockup-3 14.ase": {
     "frame": { "x": 507, "y": 0, "w": 10, "h": 11 },
     "rotated": false,
     "trimmed": true,
@@ -134,8 +119,7 @@
     "sourceSize": { "w": 108, "h": 32 },
     "duration": 100
    },
-   {
-    "filename": "stat-mockup-3 15.ase",
+   "stat-mockup-3 15.ase": {
     "frame": { "x": 517, "y": 0, "w": 10, "h": 10 },
     "rotated": false,
     "trimmed": true,
@@ -143,8 +127,7 @@
     "sourceSize": { "w": 108, "h": 32 },
     "duration": 100
    },
-   {
-    "filename": "stat-mockup-3 16.ase",
+   "stat-mockup-3 16.ase": {
     "frame": { "x": 527, "y": 0, "w": 86, "h": 23 },
     "rotated": false,
     "trimmed": true,
@@ -152,7 +135,7 @@
     "sourceSize": { "w": 108, "h": 32 },
     "duration": 100
    }
- ],
+ },
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.6-x64",
