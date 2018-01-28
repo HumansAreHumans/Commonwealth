@@ -1,3 +1,3 @@
 import './planet';
-import './resource';
+// import './resource';
 import './app';
