@@ -17,7 +17,7 @@ Loader.load((loader: any, resources: any) => {
   console.log(resources.planet);
 
   const sprites: { [key: string]: PIXI.Container } = {};
-  const sheet = resources.planet.spritesheet.textures;
+  const sheet = resources.planet.textures;
 
   const makeButton = (id: number, onClick: () => void) => {
     const button = new PIXI.Sprite(sheet[id]);
@@ -41,6 +41,7 @@ Loader.load((loader: any, resources: any) => {
 
     return button;
   };
+
   const makeAnimation = (textures: any, idx, count) => {
     const frames: any[] = [];
     for (let i = 0; i < count; i++) {
