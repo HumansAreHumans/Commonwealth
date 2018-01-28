@@ -71,9 +71,10 @@ const options: vis.Options = {
   }
 };
 // initialize your network!
+let networkData = getData(Game.planets);
 export const network = new vis.Network(
   container,
-  getData(Game.planets),
+  networkData,
   options
 );
 
@@ -87,7 +88,7 @@ window.addEventListener('resize', () => doResize());
 window.addEventListener('keypress', (ev: KeyboardEvent) => {
   // console.log(`[${ev.key}]`);
   if (ev.key === 'c') {
-    network.clusterOutliers();
+    Game.GetGameObjectById(127).AddGatewayToPlanet(Game.GetGameObjectById(123));
   }
 });
 
@@ -103,3 +104,54 @@ export const renderData = (): Planet[] =>
 
     return planet;
   });
+
+// Bind to planet creation event
+const BindEntityEvents = (entity: Planet) => {
+    
+    entity.On('gatewayCreated', (data: any) => {
+        networkData.edges.add([{
+            from: data.sourcePlanet.id,
+            to: data.destinationPlanet.id
+        }]);
+    });
+
+    console.log('added probe create event');
+    entity.On('probeCreated', (data: any) => {
+        console.log('got probe created event');
+        networkData.edges.add([{
+            from: data.sourcePlanet.id,
+            to: data.destinationPlanet.id
+        }]);
+    });
+
+    entity.On('probeDestroyed', (data: any) => {
+        let probeId: vis.IdType = -1;
+        networkData.edges.forEach((item: any, id) => {
+            if (item.from === data.sourcePlanet.id
+            && item.to === data.destinationPlanet.id) {
+                probeId = id;
+            }
+        });
+        
+        if (probeId !== -1) {
+            networkData.edges.remove({id: probeId} as any);
+        }
+    });
+};
+
+Game.onEntityAdded((entity: Planet) => {
+    networkData.nodes.add([{
+        id: entity.id,
+        label: '',
+        image: '/img/planet.png',
+        shape: 'circularImage'
+    }]);
+
+    BindEntityEvents(entity);
+});
+
+Game.onEntityRemoved((entity: Planet) => {
+    networkData.nodes.remove({id: entity.id} as any);
+});
+
+Game.planets.forEach(planet => BindEntityEvents(planet));
