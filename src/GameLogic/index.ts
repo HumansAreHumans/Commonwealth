@@ -1,6 +1,6 @@
 import { GeneratePlanet } from './PlanetGenerator';
 import { Game } from './GameState';
-export { Planet, materialNames } from './Planet';
+export { Planet, materialNames, combatUnitNames } from './Planet';
 export { GeneratePlanet } from './PlanetGenerator';
 export { Game } from './GameState';
 // Add initial objects here
