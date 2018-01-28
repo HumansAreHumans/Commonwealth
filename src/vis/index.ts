@@ -112,9 +112,7 @@ const BindEntityEvents = (entity: Planet) => {
     ]);
   });
 
-  console.log('added probe create event');
   entity.On('probeCreated', (data: any) => {
-    console.log('got probe created event');
     networkData.edges.add([
       {
         from: data.sourcePlanet.id,

@@ -280,7 +280,12 @@ export class Planet extends GameObject {
   }
 
   ProbePlanet() {
-      console.log('probing...');
+    
+    // only the player can probe
+    if (this.planetOwner !== 'player') {
+        return;
+    }
+
     if (this.probe !== undefined) {
         // Destroy the probed planet, since we don't want to make a gateway to it
         const destPlanet = this.probe.destinationPlanet;
@@ -289,19 +294,17 @@ export class Planet extends GameObject {
             destinationPlanet: destPlanet
         });
         Game.Remove(destPlanet);
-        console.log('Had to destroy a planet ' + destPlanet.stats.name + ', it was in the way of galatic conquest...');
     }
 
     const newTarget = GeneratePlanet();
     Game.Add(newTarget);
-    console.log('sending probe created event');
+
     this.Send('probeCreated', {
         sourcePlanet: this,
         destinationPlanet: newTarget
     });
-    console.log('send probe created event');
+
     this.probe = new Probe(this, newTarget);
-    console.log('Created a probe to new planet ' + newTarget.stats.name);
   }
 
   // Configure the gateway to move combat units

@@ -115,4 +115,7 @@ Loader.load((loader: any, resources: any) => {
       sprites[planet.id].position.set(planet.x, planet.y);
     });
   });
+  Game.onEntityRemoved((entitiy: Planet) => {
+      app.stage.removeChild(sprites[entitiy.id]);
+  });
 });
