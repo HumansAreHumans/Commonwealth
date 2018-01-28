@@ -6,6 +6,7 @@ import { GeneratePlanet } from './PlanetGenerator';
 // CONST GAME DATA
 ////////////////////////
 
+const resourceLimit = 100;
 const materialGenFrequency = 0.25;
 const combatUnitGenFrequency = 0.25;
 const gatewayMoveFrequency = 0.25;
@@ -215,6 +216,7 @@ export class Planet extends GameObject {
     ) {
       // Generate resources
       Object.keys(this.stats.materialsGenerated).forEach(key => {
+        if (this.stationedMaterials[key] < resourceLimit - this.stats.materialsGenerated[key])
         this.stationedMaterials[key] += this.stats.materialsGenerated[key];
       });
 
@@ -227,11 +229,14 @@ export class Planet extends GameObject {
     ) {
       // Consume resources to generate combat units
       Object.keys(this.stats.materialCost).forEach(key => {
-        if (this.stationedMaterials[key] >= this.stats.materialCost[key]) {
+        const unitName = materialNameToCombatUnit[key];
+
+        if (
+          this.stationedMaterials[key] >= this.stats.materialCost[key] &&
+          this.stationedCombatUnits <
+            resourceLimit - this.stats.unitsProduced[unitName]
+        ) {
           this.stationedMaterials[key] -= this.stats.materialCost[key];
-
-          const unitName = materialNameToCombatUnit[key];
-
           this.stationedCombatUnits[unitName] += this.stats.unitsProduced[
             unitName
           ];
@@ -266,17 +271,19 @@ export class Planet extends GameObject {
       this.stats.maxGateways > this.gateways.length &&
       otherPlanet.stats.maxGateways > otherPlanet.gateways.length
     ) {
-        if (this.probe !== undefined
-        && this.probe.destinationPlanet.id === otherPlanet.id) {
-            // Clear the probe so we can probe for a different new planet
-            delete this.probe;
-        }
+      if (
+        this.probe !== undefined &&
+        this.probe.destinationPlanet.id === otherPlanet.id
+      ) {
+        // Clear the probe so we can probe for a different new planet
+        delete this.probe;
+      }
 
       this.gateways.push(new Gateway(this, otherPlanet));
       otherPlanet.gateways.push(new Gateway(otherPlanet, this));
       this.Send('gatewayCreated', {
-          sourcePlanet: this,
-          destinationPlanet: otherPlanet
+        sourcePlanet: this,
+        destinationPlanet: otherPlanet
       });
       return true;
     } else {
@@ -286,28 +293,27 @@ export class Planet extends GameObject {
   }
 
   ProbePlanet() {
-    
     // only the player can probe
     if (this.planetOwner !== 'player') {
-        return;
+      return;
     }
 
     if (this.probe !== undefined) {
-        // Destroy the probed planet, since we don't want to make a gateway to it
-        const destPlanet = this.probe.destinationPlanet;
-        this.Send('probeDestroyed', {
-            sourcePlanet: this,
-            destinationPlanet: destPlanet
-        });
-        Game.Remove(destPlanet);
+      // Destroy the probed planet, since we don't want to make a gateway to it
+      const destPlanet = this.probe.destinationPlanet;
+      this.Send('probeDestroyed', {
+        sourcePlanet: this,
+        destinationPlanet: destPlanet
+      });
+      Game.Remove(destPlanet);
     }
 
     const newTarget = GeneratePlanet();
     Game.Add(newTarget);
 
     this.Send('probeCreated', {
-        sourcePlanet: this,
-        destinationPlanet: newTarget
+      sourcePlanet: this,
+      destinationPlanet: newTarget
     });
 
     this.probe = new Probe(this, newTarget);

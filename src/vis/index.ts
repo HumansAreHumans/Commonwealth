@@ -84,8 +84,17 @@ window.addEventListener('resize', () => doResize());
 window.addEventListener('keypress', (ev: KeyboardEvent) => {
   // console.log(`[${ev.key}]`);
   if (ev.key === 'c') {
-    Game.GetGameObjectById(127).AddGatewayToPlanet(Game.GetGameObjectById(123));
+    network.focus(123);
   }
+  if (ev.key === 'z') {
+        const moveOptions: vis.MoveToOptions = {
+            animation: undefined,
+            offset: {x: 0, y: 0},
+            position: {x: 0, y: 0},
+            scale: 1,
+        };
+        network.moveTo(moveOptions);
+    }
 });
 
 export const renderData = (): Planet[] =>

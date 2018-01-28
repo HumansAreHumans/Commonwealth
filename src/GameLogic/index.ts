@@ -17,6 +17,19 @@ planets.forEach((planet, i) => {
   planet.AddGatewayToPlanet(target);
 });
 
+// Initial planet generation
+for (let i = 0; i < 100 ; ++i) {
+    let owner = '';
+    
+    // Select an owner
+    const ownerChance = Math.random();
+    if (ownerChance < 0.1) owner = 'factionOne';
+    else if (ownerChance < 0.2) owner = 'factionTwo';
+
+    const newPlanet = GeneratePlanet(owner);
+    Game.Add(newPlanet);
+}
+
 Game.Start();
 
 let lastFrame = performance.now();
