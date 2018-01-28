@@ -1,38 +1,6 @@
 import * as vis from 'vis';
 import { forEach, map } from './obj';
-
-export interface Planet {
-  id: number;
-  name: string;
-  portals: number[];
-  resources: string[];
-}
-const Planets: Planet[] = [
-  {
-    name: 'Foo',
-    id: 0,
-    portals: [1, 2],
-    resources: []
-  },
-  {
-    name: 'Doop',
-    id: 1,
-    portals: [2],
-    resources: []
-  },
-  {
-    name: 'Loop',
-    id: 2,
-    portals: [3],
-    resources: []
-  },
-  {
-    name: 'Toop',
-    id: 3,
-    portals: [1],
-    resources: []
-  }
-];
+import { Game, Planet } from '../GameLogic';
 
 // create a network
 const container = document.getElementById('networkgraph') as HTMLElement;
@@ -51,10 +19,10 @@ const getEdges = (planets: Planet[]) => {
   const edges: any = [];
 
   planets.forEach(planet => {
-    planet.portals.forEach(foreignPlanet => {
+    planet.gateways.forEach(gateway => {
       edges.push({
         from: planet.id,
-        to: foreignPlanet
+        to: gateway.destinationPlanet.id
       });
     });
   });
@@ -95,7 +63,11 @@ const options: vis.Options = {
   }
 };
 // initialize your network!
-export const network = new vis.Network(container, getData(Planets), options);
+export const network = new vis.Network(
+  container,
+  getData(Game.planets),
+  options
+);
 
 // Shiz
 const doResize = () =>
@@ -111,23 +83,15 @@ window.addEventListener('keypress', (ev: KeyboardEvent) => {
   }
 });
 
-interface PlanetRender extends Planet {
-  x: number;
-  y: number;
-}
-
-export const renderData = (): PlanetRender[] =>
-  Planets.map(planet => {
+export const renderData = (): Planet[] =>
+  Game.planets.map(planet => {
     const pos = network.canvasToDOM(
       network.getPositions([planet.id])[planet.id]
     );
     const anyNet = network as any;
 
-    return Object.assign(
-      {
-        x: pos.x,
-        y: pos.y
-      },
-      planet
-    );
+    planet.x = pos.x;
+    planet.y = pos.y;
+
+    return planet;
   });
