@@ -4,13 +4,18 @@ import { Game, Planet } from '../GameLogic';
 
 // create a network
 const container = document.getElementById('networkgraph') as HTMLElement;
+const planetTexs = ['medium', 'small', 'large'];
+const getRandomPlanet = () =>
+  planetTexs[Math.round(Math.random() * (planetTexs.length - 1))];
+const getPlanetTex = () => `/img/planets/${getRandomPlanet()}.png`;
 
 const getNodes = (planets: Planet[]) =>
   new vis.DataSet(
     planets.map(planet => ({
       id: planet.id,
       label: '',
-      image: '/img/planet.png',
+      image: getPlanetTex(),
+      size: 15 + Math.random() * 20,
       shape: 'circularImage'
     }))
   );
@@ -51,8 +56,9 @@ const options: vis.Options = {
     smooth: false,
     length: 500,
     shadow: true,
+    width: 5,
     color: {
-      color: 'black'
+      color: 'white'
     }
   },
   physics: {

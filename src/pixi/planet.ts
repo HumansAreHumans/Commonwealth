@@ -53,6 +53,12 @@ Loader.load((loader: any, resources: any) => {
     return anim;
   };
 
+  const createResourceCounts = (planet: Planet) => {
+    const container = new PIXI.Container();
+
+    return container;
+  };
+
   const createFrame = (planet: Planet) => {
     const materialIdx = 7;
     const container = new PIXI.Container();
@@ -63,6 +69,8 @@ Loader.load((loader: any, resources: any) => {
       Game.Add(fplanet);
       planet.ProbePlanet(fplanet);
     });
+
+    const resourceCounts = createResourceCounts(planet);
 
     materialNames.forEach((material, i) => {
       const gemY = [1, 19, 9];
@@ -77,6 +85,7 @@ Loader.load((loader: any, resources: any) => {
     container.scale.set(3);
     container.position.set(-100, -100);
     container.addChild(bg);
+    container.addChild(resourceCounts);
     container.addChild(namePlate);
     container.addChild(portalNew);
     return container;
