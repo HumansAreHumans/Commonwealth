@@ -2,7 +2,13 @@ import * as PIXI from 'pixi.js';
 import Loader from './loader';
 import { app } from './app';
 import { renderData, network } from '../vis';
-import { Planet, GeneratePlanet, Game, materialNames } from '../GameLogic';
+import {
+  Planet,
+  GeneratePlanet,
+  Game,
+  materialNames,
+  combatUnitNames as unitNames
+} from '../GameLogic';
 
 import * as TWEEN from '@tweenjs/tween.js';
 
@@ -20,8 +26,6 @@ const getFrames = (aseAnimation: any, frameName: string) => {
 };
 
 Loader.load((loader: any, resources: any) => {
-  console.log(resources.planet);
-
   const sprites: { [key: string]: PIXI.Container } = {};
   const sheet = resources.planet.textures;
 
@@ -65,19 +69,77 @@ Loader.load((loader: any, resources: any) => {
     return button;
   };
 
-  const makeAnimation = (textures: any, idx, count) => {
+  const makeAnimation = (textures: any, idx, count, speed = 0.05) => {
     const frames: any[] = [];
     for (let i = 0; i < count; i++) {
       frames.push(textures[idx + i]);
     }
     const anim = new PIXI.extras.AnimatedSprite(frames);
-    anim.animationSpeed = 0.05;
+    anim.animationSpeed = speed;
     anim.play();
     return anim;
   };
 
+  const textStyle = {
+    dropShadowColor: 'black',
+    fill: 'red',
+    fontSize: '10px'
+  };
+
   const createResourceCounts = (planet: Planet) => {
     const container = new PIXI.Container();
+    const unitCounts: PIXI.Text[] = [];
+
+    let offset = 20;
+
+    materialNames.forEach((material, i) => {
+      const gemSprite = makeAnimation(resources.gems.textures, 2 + i * 5, 3);
+      container.addChild(gemSprite);
+      gemSprite.position.set(offset, 0);
+
+      const texSprite = new PIXI.Text('0', textStyle);
+      texSprite.position.set(offset + 10, -4);
+      container.addChild(texSprite);
+      unitCounts.push(texSprite);
+      offset += 20;
+    });
+
+    const cylonSprite = makeAnimation(resources.gems.textures, 17, 7, 0.5);
+    container.addChild(cylonSprite);
+    cylonSprite.position.set(offset, 0);
+    const tex1Sprite = new PIXI.Text('0', textStyle);
+    tex1Sprite.position.set(offset + 10, -4);
+    container.addChild(tex1Sprite);
+    offset += 20;
+
+    const somSprite = makeAnimation(resources.gems.textures, 27, 1);
+    container.addChild(somSprite);
+    somSprite.position.set(offset, 0);
+    const tex2Sprite = new PIXI.Text('0', textStyle);
+    tex2Sprite.position.set(offset + 10, -4);
+    container.addChild(tex2Sprite);
+    unitCounts.push(tex2Sprite);
+    offset += 20;
+
+    const aSprite = makeAnimation(resources.gems.textures, 30, 1);
+    container.addChild(aSprite);
+    aSprite.position.set(offset, 0);
+    const tex3Sprite = new PIXI.Text('0', textStyle);
+    tex3Sprite.position.set(offset + 10, -4);
+    container.addChild(tex3Sprite);
+    unitCounts.push(tex3Sprite);
+    offset += 20;
+
+    app.ticker.add(() => {
+      unitCounts.forEach((e, i) => {
+        if (i < 3) {
+          console.log(planet.stationedMaterials[materialNames[i]]);
+          e.text = planet.stationedMaterials[materialNames[i]];
+        } else {
+          e.text = planet.stationedCombatUnits[unitNames[i - 3]];
+        }
+      });
+    });
 
     return container;
   };

@@ -160,6 +160,96 @@
     "spriteSourceSize": { "x": 97, "y": 9, "w": 23, "h": 34 },
     "sourceSize": { "w": 120, "h": 43 },
     "duration": 100
+   },
+   {
+    "filename": "stat-mockup-3 18.ase",
+    "frame": { "x": 648, "y": 0, "w": 10, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 21, "y": 20, "w": 10, "h": 10 },
+    "sourceSize": { "w": 120, "h": 43 },
+    "duration": 100
+   },
+   {
+    "filename": "stat-mockup-3 19.ase",
+    "frame": { "x": 658, "y": 0, "w": 10, "h": 11 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 21, "y": 20, "w": 10, "h": 11 },
+    "sourceSize": { "w": 120, "h": 43 },
+    "duration": 100
+   },
+   {
+    "filename": "stat-mockup-3 20.ase",
+    "frame": { "x": 668, "y": 0, "w": 10, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 21, "y": 20, "w": 10, "h": 10 },
+    "sourceSize": { "w": 120, "h": 43 },
+    "duration": 100
+   },
+   {
+    "filename": "stat-mockup-3 21.ase",
+    "frame": { "x": 678, "y": 0, "w": 10, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 21, "y": 20, "w": 10, "h": 10 },
+    "sourceSize": { "w": 120, "h": 43 },
+    "duration": 100
+   },
+   {
+    "filename": "stat-mockup-3 22.ase",
+    "frame": { "x": 688, "y": 0, "w": 10, "h": 11 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 21, "y": 20, "w": 10, "h": 11 },
+    "sourceSize": { "w": 120, "h": 43 },
+    "duration": 100
+   },
+   {
+    "filename": "stat-mockup-3 23.ase",
+    "frame": { "x": 698, "y": 0, "w": 10, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 21, "y": 20, "w": 10, "h": 10 },
+    "sourceSize": { "w": 120, "h": 43 },
+    "duration": 100
+   },
+   {
+    "filename": "stat-mockup-3 24.ase",
+    "frame": { "x": 0, "y": 0, "w": 0, "h": 0 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 0, "h": 0 },
+    "sourceSize": { "w": 120, "h": 43 },
+    "duration": 100
+   },
+   {
+    "filename": "stat-mockup-3 25.ase",
+    "frame": { "x": 708, "y": 0, "w": 10, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 32, "y": 20, "w": 10, "h": 10 },
+    "sourceSize": { "w": 120, "h": 43 },
+    "duration": 100
+   },
+   {
+    "filename": "stat-mockup-3 26.ase",
+    "frame": { "x": 718, "y": 0, "w": 10, "h": 11 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 32, "y": 20, "w": 10, "h": 11 },
+    "sourceSize": { "w": 120, "h": 43 },
+    "duration": 100
+   },
+   {
+    "filename": "stat-mockup-3 27.ase",
+    "frame": { "x": 728, "y": 0, "w": 10, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 32, "y": 20, "w": 10, "h": 10 },
+    "sourceSize": { "w": 120, "h": 43 },
+    "duration": 100
    }
  ],
  "meta": {
@@ -167,7 +257,7 @@
   "version": "1.2.6-x64",
   "image": ".\\stat-mockup-3.png",
   "format": "I8",
-  "size": { "w": 2160, "h": 43 },
+  "size": { "w": 3360, "h": 43 },
   "scale": "1",
   "frameTags": [
    { "name": "arrow", "from": 1, "to": 3, "direction": "forward" },
@@ -178,7 +268,10 @@
    { "name": "portal-entry", "from": 10, "to": 12, "direction": "forward" },
    { "name": "portal-new", "from": 13, "to": 15, "direction": "forward" },
    { "name": "frame", "from": 16, "to": 16, "direction": "forward" },
-   { "name": "portal-choose", "from": 17, "to": 17, "direction": "forward" }
+   { "name": "portal-choose", "from": 17, "to": 17, "direction": "forward" },
+   { "name": "portal-plus", "from": 18, "to": 20, "direction": "forward" },
+   { "name": "portal-check", "from": 21, "to": 23, "direction": "forward" },
+   { "name": "portal-cross", "from": 24, "to": 26, "direction": "forward" }
   ],
   "layers": [
    { "name": "frame", "opacity": 255, "blendMode": "normal" },
@@ -188,6 +281,15 @@
    { "name": "portal-new", "opacity": 255, "blendMode": "normal" },
    { "name": "portal-new-hover", "opacity": 255, "blendMode": "normal" },
    { "name": "portal-new-click", "opacity": 255, "blendMode": "normal" },
+   { "name": "portal-cross", "opacity": 255, "blendMode": "normal" },
+   { "name": "portal-cross-hover", "opacity": 255, "blendMode": "normal" },
+   { "name": "portal-cross-click", "opacity": 255, "blendMode": "normal" },
+   { "name": "portal-check", "opacity": 255, "blendMode": "normal" },
+   { "name": "portal-check-hover", "opacity": 255, "blendMode": "normal" },
+   { "name": "portal-check-click", "opacity": 255, "blendMode": "normal" },
+   { "name": "portal-plus", "opacity": 255, "blendMode": "normal" },
+   { "name": "portal-plus-hover", "opacity": 255, "blendMode": "normal" },
+   { "name": "portal-plus-click", "opacity": 255, "blendMode": "normal" },
    { "name": "portal-entry", "opacity": 255, "blendMode": "normal" },
    { "name": "portal-entry-hover", "opacity": 255, "blendMode": "normal" },
    { "name": "portal-entry-click", "opacity": 255, "blendMode": "normal" },
