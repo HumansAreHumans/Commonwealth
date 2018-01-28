@@ -12,7 +12,7 @@
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.6-x64",
-  "image": "C:\\Users\\lawton\\Desktop\\raspberry\\public\\img\\space.png",
+  "image": ".\\space.png",
   "format": "I8",
   "size": { "w": 64, "h": 64 },
   "scale": "1",
