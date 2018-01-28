@@ -6,10 +6,12 @@ import { Planet, GeneratePlanet, Game } from '../GameLogic';
 
 import * as TWEEN from '@tweenjs/tween.js';
 
-const getLayer = (layerName: string, frames: any) =>
-  frames.textures[
-    frames.data.meta.layers.findIndex((layer: any) => layer.name === layerName)
-  ];
+const getFrame = (aseAnimation: any, frameName: string) =>
+  aseAnimation.meta.data.frames.find(frame => frame.name === frameName);
+
+const getAnimation = (aseAnimation: any, frameName: string) => {
+  const frame = getFrame(aseAnimation, frameName);
+};
 
 Loader.load((loader: any, resources: any) => {
   console.log(resources.planet);
