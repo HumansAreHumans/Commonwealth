@@ -112,14 +112,15 @@ const BindEntityEvents = (entity: Planet) => {
     ]);
   });
 
-  entity.On('probeCreated', (data: any) => {
-    networkData.edges.add([
-      {
-        from: data.sourcePlanet.id,
-        to: data.destinationPlanet.id
-      }
-    ]);
-  });
+    entity.On('probeCreated', (data: any) => {
+        networkData.edges.add([
+            {
+                from: data.sourcePlanet.id,
+                to: data.destinationPlanet.id,
+                dashes: true
+            }
+        ]);
+    });
 
   entity.On('probeDestroyed', (data: any) => {
     let probeId: vis.IdType = -1;
