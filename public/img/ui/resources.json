@@ -244,42 +244,15 @@
    },
    {
     "filename": "resources 27.ase",
-    "frame": { "x": 0, "y": 0, "w": 0, "h": 0 },
+    "frame": { "x": 201, "y": 0, "w": 8, "h": 7 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 0, "h": 0 },
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 8, "h": 7 },
     "sourceSize": { "w": 8, "h": 8 },
     "duration": 100
    },
    {
     "filename": "resources 28.ase",
-    "frame": { "x": 0, "y": 0, "w": 0, "h": 0 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 0, "h": 0 },
-    "sourceSize": { "w": 8, "h": 8 },
-    "duration": 100
-   },
-   {
-    "filename": "resources 29.ase",
-    "frame": { "x": 0, "y": 0, "w": 0, "h": 0 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 0, "h": 0 },
-    "sourceSize": { "w": 8, "h": 8 },
-    "duration": 100
-   },
-   {
-    "filename": "resources 30.ase",
-    "frame": { "x": 201, "y": 0, "w": 8, "h": 8 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 8, "h": 8 },
-    "sourceSize": { "w": 8, "h": 8 },
-    "duration": 100
-   },
-   {
-    "filename": "resources 31.ase",
     "frame": { "x": 209, "y": 0, "w": 8, "h": 8 },
     "rotated": false,
     "trimmed": false,
@@ -288,29 +261,20 @@
     "duration": 100
    },
    {
-    "filename": "resources 32.ase",
-    "frame": { "x": 0, "y": 0, "w": 0, "h": 0 },
+    "filename": "resources 29.ase",
+    "frame": { "x": 217, "y": 0, "w": 8, "h": 8 },
     "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 0, "h": 0 },
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 8, "h": 8 },
     "sourceSize": { "w": 8, "h": 8 },
     "duration": 100
    },
    {
-    "filename": "resources 33.ase",
-    "frame": { "x": 0, "y": 0, "w": 0, "h": 0 },
+    "filename": "resources 30.ase",
+    "frame": { "x": 225, "y": 0, "w": 8, "h": 8 },
     "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 0, "h": 0 },
-    "sourceSize": { "w": 8, "h": 8 },
-    "duration": 100
-   },
-   {
-    "filename": "resources 34.ase",
-    "frame": { "x": 0, "y": 0, "w": 0, "h": 0 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 0, "h": 0 },
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 8, "h": 8 },
     "sourceSize": { "w": 8, "h": 8 },
     "duration": 100
    }
@@ -320,7 +284,7 @@
   "version": "1.2.6-x64",
   "image": "C:\\Users\\lawton\\Desktop\\raspberry\\public\\img\\ui\\resources.png",
   "format": "I8",
-  "size": { "w": 280, "h": 8 },
+  "size": { "w": 248, "h": 8 },
   "scale": "1",
   "frameTags": [
    { "name": "icon-1", "from": 0, "to": 0, "direction": "forward" },
@@ -337,23 +301,19 @@
    { "name": "active-4", "from": 17, "to": 24, "direction": "forward" },
    { "name": "icon-5", "from": 25, "to": 25, "direction": "forward" },
    { "name": "hover-5", "from": 26, "to": 26, "direction": "forward" },
-   { "name": "active-5", "from": 27, "to": 29, "direction": "forward" },
-   { "name": "icon-6", "from": 30, "to": 30, "direction": "forward" },
-   { "name": "hover-6", "from": 31, "to": 31, "direction": "forward" },
-   { "name": "active-6", "from": 32, "to": 34, "direction": "forward" }
+   { "name": "active-5", "from": 27, "to": 27, "direction": "forward" },
+   { "name": "icon-6", "from": 28, "to": 28, "direction": "forward" },
+   { "name": "hover-6", "from": 29, "to": 29, "direction": "forward" },
+   { "name": "active-6", "from": 30, "to": 30, "direction": "forward" }
   ],
   "layers": [
    { "name": "icon", "group": "6", "opacity": 255, "blendMode": "normal" },
    { "name": "hover", "group": "6", "opacity": 255, "blendMode": "normal" },
    { "name": "active-1", "group": "6", "opacity": 255, "blendMode": "normal" },
-   { "name": "active-2", "group": "6", "opacity": 255, "blendMode": "normal" },
-   { "name": "active-3", "group": "6", "opacity": 255, "blendMode": "normal" },
    { "name": "6" },
    { "name": "icon", "group": "5", "opacity": 255, "blendMode": "normal" },
    { "name": "hover", "group": "5", "opacity": 255, "blendMode": "normal" },
    { "name": "active-1", "group": "5", "opacity": 255, "blendMode": "normal" },
-   { "name": "active-2", "group": "5", "opacity": 255, "blendMode": "normal" },
-   { "name": "active-3", "group": "5", "opacity": 255, "blendMode": "normal" },
    { "name": "5" },
    { "name": "icon", "group": "4", "opacity": 255, "blendMode": "normal" },
    { "name": "hover", "group": "4", "opacity": 255, "blendMode": "normal" },
