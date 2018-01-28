@@ -2,7 +2,13 @@ import * as PIXI from 'pixi.js';
 import Loader from './loader';
 import { app } from './app';
 import { renderData, network } from '../vis';
-import { Planet, GeneratePlanet, Game, materialNames } from '../GameLogic';
+import {
+  Planet,
+  GeneratePlanet,
+  Game,
+  materialNames,
+  combatUnitNames as unitNames
+} from '../GameLogic';
 
 import * as TWEEN from '@tweenjs/tween.js';
 
@@ -42,15 +48,43 @@ Loader.load((loader: any, resources: any) => {
     return button;
   };
 
-  const makeAnimation = (textures: any, idx, count) => {
+  const makeAnimation = (textures: any, idx, count, speed = 0.05) => {
     const frames: any[] = [];
     for (let i = 0; i < count; i++) {
       frames.push(textures[idx + i]);
     }
     const anim = new PIXI.extras.AnimatedSprite(frames);
-    anim.animationSpeed = 0.05;
+    anim.animationSpeed = speed;
     anim.play();
     return anim;
+  };
+
+  const createResourceCounts = (planet: Planet) => {
+    const container = new PIXI.Container();
+    let offset = 20;
+    materialNames.forEach((material, i) => {
+      const gemSprite = makeAnimation(resources.gems.textures, 2 + i * 5, 3);
+      container.addChild(gemSprite);
+      gemSprite.position.set(offset, 0);
+      offset += 20;
+    });
+
+    const cylonSprite = makeAnimation(resources.gems.textures, 17, 7, 0.5);
+    container.addChild(cylonSprite);
+    cylonSprite.position.set(offset, 0);
+    offset += 20;
+
+    const somSprite = makeAnimation(resources.gems.textures, 27, 1);
+    container.addChild(somSprite);
+    somSprite.position.set(offset, 0);
+    offset += 20;
+
+    const aSprite = makeAnimation(resources.gems.textures, 30, 1);
+    container.addChild(aSprite);
+    aSprite.position.set(offset, 0);
+    offset += 20;
+
+    return container;
   };
 
   const createFrame = (planet: Planet) => {
@@ -61,6 +95,8 @@ Loader.load((loader: any, resources: any) => {
     const portalNew = makeButton(13, () => {
       planet.ProbePlanet();
     });
+
+    const resourceCounts = createResourceCounts(planet);
 
     materialNames.forEach((material, i) => {
       const gemY = [1, 19, 9];
@@ -75,6 +111,7 @@ Loader.load((loader: any, resources: any) => {
     container.scale.set(3);
     container.position.set(-100, -100);
     container.addChild(bg);
+    container.addChild(resourceCounts);
     container.addChild(namePlate);
     container.addChild(portalNew);
     return container;
@@ -105,5 +142,8 @@ Loader.load((loader: any, resources: any) => {
       }
       sprites[planet.id].position.set(planet.x, planet.y);
     });
+  });
+  Game.onEntityRemoved((entitiy: Planet) => {
+    app.stage.removeChild(sprites[entitiy.id]);
   });
 });

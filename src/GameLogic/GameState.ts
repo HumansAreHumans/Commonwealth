@@ -60,16 +60,12 @@ export class GameState {
         return value.id === go.id;
       });
 
-      console.log(ind);
       if (ind !== -1) {
-        console.log('splicing game object array');
         this.GameObjects.splice(ind, 1);
         delete this.GameObjectById[go.id];
 
-        console.log('sending removed handler functions');
         this.removedHandlers.forEach(handler => {
             handler(go);
-            console.log('called a removed handler');
         });
       }
   }
@@ -83,7 +79,6 @@ export class GameState {
   }
 
   onEntityRemoved(handler: (entity: Planet) => void) {
-      console.log('added a removed handler');
       this.removedHandlers.push(handler);
   }
 }
