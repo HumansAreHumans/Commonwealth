@@ -104,7 +104,7 @@ Loader.load((loader: any, resources: any) => {
       offset += 20;
     });
 
-    const cylonSprite = makeAnimation(resources.gems.textures, 17, 7, 0.5);
+    const cylonSprite = makeAnimation(resources.gems.textures, 17, 7, 0.1);
     container.addChild(cylonSprite);
     cylonSprite.position.set(offset, 0);
     const tex1Sprite = new PIXI.Text('0', textStyle);
@@ -112,7 +112,7 @@ Loader.load((loader: any, resources: any) => {
     container.addChild(tex1Sprite);
     offset += 20;
 
-    const somSprite = makeAnimation(resources.gems.textures, 27, 1);
+    const somSprite = makeAnimation(resources.gems.textures, 27, 4);
     container.addChild(somSprite);
     somSprite.position.set(offset, 0);
     const tex2Sprite = new PIXI.Text('0', textStyle);
@@ -121,7 +121,7 @@ Loader.load((loader: any, resources: any) => {
     unitCounts.push(tex2Sprite);
     offset += 20;
 
-    const aSprite = makeAnimation(resources.gems.textures, 30, 1);
+    const aSprite = makeAnimation(resources.gems.textures, 33, 4);
     container.addChild(aSprite);
     aSprite.position.set(offset, 0);
     const tex3Sprite = new PIXI.Text('0', textStyle);
@@ -186,27 +186,39 @@ Loader.load((loader: any, resources: any) => {
       portalIndex < planet.stats.maxGateways - planet.gateways.length;
       ++portalIndex
     ) {
-      const portalNew = makeButton(13, planet, 'open', (lastClick: ClickHistory) => {
-        if (lastClick.lastButton !== undefined
-        && lastClick.lastButton.name === 'open'
-        && lastClick.currentButton.name === 'open') {
-          lastClick.lastButtonOwner.AddGatewayToPlanet(planet);
+      const portalNew = makeButton(
+        13,
+        planet,
+        'open',
+        (lastClick: ClickHistory) => {
+          if (
+            lastClick.lastButton !== undefined &&
+            lastClick.lastButton.name === 'open' &&
+            lastClick.currentButton.name === 'open'
+          ) {
+            lastClick.lastButtonOwner.AddGatewayToPlanet(planet);
 
-          lastClick.lastButton.interactive = false;
-          lastClick.lastButton.name = 'used';
-          lastClick.currentButton.interactive = false;
-          lastClick.currentButton.name = 'used';
+            lastClick.lastButton.interactive = false;
+            lastClick.lastButton.name = 'used';
+            lastClick.currentButton.interactive = false;
+            lastClick.currentButton.name = 'used';
 
-          return;
+            return;
+          }
         }
-      });
+      );
       portalNew.position.set(portalIndex * 10, 0);
       container.addChild(portalNew);
     }
 
-    const probeButton = makeButton(13, planet, 'probe', (lastClick: ClickHistory) => {
-      planet.ProbePlanet();
-    });
+    const probeButton = makeButton(
+      13,
+      planet,
+      'probe',
+      (lastClick: ClickHistory) => {
+        planet.ProbePlanet();
+      }
+    );
     probeButton.position.set(portalIndex * 10, 0);
     container.addChild(probeButton);
     return container;
