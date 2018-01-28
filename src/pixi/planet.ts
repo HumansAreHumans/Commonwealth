@@ -68,7 +68,7 @@ Loader.load((loader: any, resources: any) => {
       if (!planet.stats.materialsGenerated[material]) return;
       const matSprite = new PIXI.Sprite(sheet[materialIdx + i]);
       const gemSprite = makeAnimation(resources.gems.textures, 2 + i * 5, 3);
-      gemSprite.position.set(g, gemY[i]);
+      gemSprite.position.set(2, gemY[i]);
       container.addChild(matSprite);
       container.addChild(gemSprite);
     });
