@@ -6,6 +6,12 @@ import { Planet, GeneratePlanet, Game, materialNames } from '../GameLogic';
 
 import * as TWEEN from '@tweenjs/tween.js';
 
+interface ClickHistory {
+  lastButton: PIXI.Sprite;
+  lastButtonOwner: Planet;
+  currentButton: PIXI.Sprite;
+}
+
 const getFrameInfo = (aseAnimation: any, frameName: string) =>
   aseAnimation.meta.data.frames.find(frame => frame.name === frameName);
 
@@ -19,9 +25,21 @@ Loader.load((loader: any, resources: any) => {
   const sprites: { [key: string]: PIXI.Container } = {};
   const sheet = resources.planet.textures;
 
-  const makeButton = (id: number, onClick: () => void) => {
+  const lastClicked: ClickHistory = {
+    lastButton: undefined as any,
+    lastButtonOwner: undefined as any,
+    currentButton: undefined as any
+  };
+
+  const makeButton = (
+    id: number,
+    owner: Planet,
+    tag: string,
+    onClick: (lastClick: ClickHistory) => void
+  ) => {
     const button = new PIXI.Sprite(sheet[id]);
     button.interactive = true;
+    button.name = tag;
     if (button.texture.trim) {
       button.hitArea = button.texture.trim;
     }
@@ -34,10 +52,15 @@ Loader.load((loader: any, resources: any) => {
       button.texture = sheet[id];
     });
     button.on('mousedown', () => {
+      lastClicked.currentButton = button;
+      onClick(lastClicked);
+      lastClicked.lastButton = button;
+      lastClicked.lastButtonOwner = owner;
       button.texture = sheet[id + 2];
-      onClick();
     });
-    button.on('mouseup', () => (button.texture = sheet[id]));
+    button.on('mouseup', () => {
+      button.texture = sheet[id];
+    });
 
     return button;
   };
@@ -64,9 +87,6 @@ Loader.load((loader: any, resources: any) => {
     const container = new PIXI.Container();
     const namePlate = new PIXI.Sprite(sheet[4]);
     const bg = new PIXI.Sprite(sheet[16]);
-    const portalNew = makeButton(13, () => {
-      planet.ProbePlanet();
-    });
 
     const resourceCounts = createResourceCounts(planet);
 
@@ -85,7 +105,48 @@ Loader.load((loader: any, resources: any) => {
     container.addChild(bg);
     container.addChild(resourceCounts);
     container.addChild(namePlate);
-    container.addChild(portalNew);
+
+    let portalIndex = 0;
+
+    // Make existing portal buttons
+    for (; portalIndex < planet.gateways.length; ++portalIndex) {
+      const portalNew = makeButton(13, planet, 'used', () => {
+        // planet.ProbePlanet();
+      });
+      portalNew.interactive = false;
+      portalNew.position.set(portalIndex * 10, 0);
+      container.addChild(portalNew);
+    }
+
+    // Make new portal buttons
+    for (
+      ;
+      portalIndex < planet.stats.maxGateways - planet.gateways.length;
+      ++portalIndex
+    ) {
+      const portalNew = makeButton(13, planet, 'open', (lastClick: ClickHistory) => {
+        if (lastClick.lastButton !== undefined
+        && lastClick.lastButton.name === 'open'
+        && lastClick.currentButton.name === 'open') {
+          lastClick.lastButtonOwner.AddGatewayToPlanet(planet);
+
+          lastClick.lastButton.interactive = false;
+          lastClick.lastButton.name = 'used';
+          lastClick.currentButton.interactive = false;
+          lastClick.currentButton.name = 'used';
+
+          return;
+        }
+      });
+      portalNew.position.set(portalIndex * 10, 0);
+      container.addChild(portalNew);
+    }
+
+    const probeButton = makeButton(13, planet, 'probe', (lastClick: ClickHistory) => {
+      planet.ProbePlanet();
+    });
+    probeButton.position.set(portalIndex * 10, 0);
+    container.addChild(probeButton);
     return container;
   };
 
@@ -116,6 +177,6 @@ Loader.load((loader: any, resources: any) => {
     });
   });
   Game.onEntityRemoved((entitiy: Planet) => {
-      app.stage.removeChild(sprites[entitiy.id]);
+    app.stage.removeChild(sprites[entitiy.id]);
   });
 });

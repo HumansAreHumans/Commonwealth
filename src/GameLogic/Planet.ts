@@ -266,6 +266,12 @@ export class Planet extends GameObject {
       this.stats.maxGateways > this.gateways.length &&
       otherPlanet.stats.maxGateways > otherPlanet.gateways.length
     ) {
+        if (this.probe !== undefined
+        && this.probe.destinationPlanet.id === otherPlanet.id) {
+            // Clear the probe so we can probe for a different new planet
+            delete this.probe;
+        }
+
       this.gateways.push(new Gateway(this, otherPlanet));
       otherPlanet.gateways.push(new Gateway(otherPlanet, this));
       this.Send('gatewayCreated', {
