@@ -244,10 +244,19 @@
    },
    {
     "filename": "stat-mockup-3 27.ase",
-    "frame": { "x": 728, "y": 0, "w": 10, "h": 10 },
+    "frame": { "x": 728, "y": 0, "w": 86, "h": 23 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 32, "y": 20, "w": 10, "h": 10 },
+    "spriteSourceSize": { "x": 9, "y": 7, "w": 86, "h": 23 },
+    "sourceSize": { "w": 120, "h": 43 },
+    "duration": 100
+   },
+   {
+    "filename": "stat-mockup-3 28.ase",
+    "frame": { "x": 0, "y": 0, "w": 0, "h": 0 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 0, "h": 0 },
     "sourceSize": { "w": 120, "h": 43 },
     "duration": 100
    }
@@ -257,7 +266,7 @@
   "version": "1.2.6-x64",
   "image": ".\\stat-mockup-3.png",
   "format": "I8",
-  "size": { "w": 3360, "h": 43 },
+  "size": { "w": 3480, "h": 43 },
   "scale": "1",
   "frameTags": [
    { "name": "arrow", "from": 1, "to": 3, "direction": "forward" },
@@ -271,10 +280,12 @@
    { "name": "portal-choose", "from": 17, "to": 17, "direction": "forward" },
    { "name": "portal-plus", "from": 18, "to": 20, "direction": "forward" },
    { "name": "portal-check", "from": 21, "to": 23, "direction": "forward" },
-   { "name": "portal-cross", "from": 24, "to": 26, "direction": "forward" }
+   { "name": "portal-cross", "from": 24, "to": 26, "direction": "forward" },
+   { "name": "frame-1", "from": 27, "to": 27, "direction": "forward" }
   ],
   "layers": [
    { "name": "frame", "opacity": 255, "blendMode": "normal" },
+   { "name": "frame-1", "opacity": 255, "blendMode": "normal" },
    { "name": "icon-1", "opacity": 255, "blendMode": "normal" },
    { "name": "icon-2", "opacity": 255, "blendMode": "normal" },
    { "name": "icon-3", "opacity": 255, "blendMode": "normal" },
