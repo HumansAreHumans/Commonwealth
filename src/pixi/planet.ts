@@ -35,40 +35,6 @@ Loader.load((loader: any, resources: any) => {
     currentButton: undefined as any
   };
 
-  const makeButton = (
-    id: number,
-    owner: Planet,
-    tag: string,
-    onClick: (lastClick: ClickHistory) => void
-  ) => {
-    const button = new PIXI.Sprite(sheet[id]);
-    button.interactive = true;
-    button.name = tag;
-    if (button.texture.trim) {
-      button.hitArea = button.texture.trim;
-    }
-    button.on('mouseover', () => {
-      document.body.style.cursor = 'pointer';
-      button.texture = sheet[id + 1];
-    });
-    button.on('mouseout', () => {
-      document.body.style.cursor = '';
-      button.texture = sheet[id];
-    });
-    button.on('mousedown', () => {
-      lastClicked.currentButton = button;
-      onClick(lastClicked);
-      lastClicked.lastButton = button;
-      lastClicked.lastButtonOwner = owner;
-      button.texture = sheet[id + 2];
-    });
-    button.on('mouseup', () => {
-      button.texture = sheet[id];
-    });
-
-    return button;
-  };
-
   const makeAnimation = (textures: any, idx, count, speed = 0.05) => {
     const frames: any[] = [];
     for (let i = 0; i < count; i++) {
@@ -86,111 +52,174 @@ Loader.load((loader: any, resources: any) => {
     fontSize: '10px'
   };
 
-  const createResourceCounts = (planet: Planet) => {
-    const container = new PIXI.Container();
-    const unitCounts: PIXI.Text[] = [];
+  const planetSelected = {};
 
-    let offset = 20;
+  const createPlanet = (planet: Planet) => {
+    let lastButton;
+    let connection;
+    let connectedText;
+    const createResourceCounts = () => {
+      const container = new PIXI.Container();
+      const unitCounts: PIXI.Text[] = [];
 
-    materialNames.forEach((material, i) => {
-      const gemSprite = makeAnimation(resources.gems.textures, 2 + i * 5, 3);
-      container.addChild(gemSprite);
-      gemSprite.position.set(offset, 0);
+      let offset = 20;
 
-      const texSprite = new PIXI.Text('0', textStyle);
-      texSprite.position.set(offset + 10, -4);
-      container.addChild(texSprite);
-      unitCounts.push(texSprite);
+      materialNames.forEach((material, i) => {
+        const gemSprite = makeAnimation(resources.gems.textures, 2 + i * 5, 3);
+        container.addChild(gemSprite);
+        gemSprite.position.set(offset, 0);
+
+        const texSprite = new PIXI.Text('0', textStyle);
+        texSprite.position.set(offset + 10, -4);
+        container.addChild(texSprite);
+        unitCounts.push(texSprite);
+        offset += 20;
+      });
+
+      const cylonSprite = makeAnimation(resources.gems.textures, 17, 7, 0.1);
+      container.addChild(cylonSprite);
+      cylonSprite.position.set(offset, 0);
+      const tex1Sprite = new PIXI.Text('0', textStyle);
+      tex1Sprite.position.set(offset + 10, -4);
+      container.addChild(tex1Sprite);
       offset += 20;
-    });
 
-    const cylonSprite = makeAnimation(resources.gems.textures, 17, 7, 0.1);
-    container.addChild(cylonSprite);
-    cylonSprite.position.set(offset, 0);
-    const tex1Sprite = new PIXI.Text('0', textStyle);
-    tex1Sprite.position.set(offset + 10, -4);
-    container.addChild(tex1Sprite);
-    offset += 20;
+      const somSprite = makeAnimation(resources.gems.textures, 27, 4);
+      container.addChild(somSprite);
+      somSprite.position.set(offset, 0);
+      const tex2Sprite = new PIXI.Text('0', textStyle);
+      tex2Sprite.position.set(offset + 10, -4);
+      container.addChild(tex2Sprite);
+      unitCounts.push(tex2Sprite);
+      offset += 20;
 
-    const somSprite = makeAnimation(resources.gems.textures, 27, 4);
-    container.addChild(somSprite);
-    somSprite.position.set(offset, 0);
-    const tex2Sprite = new PIXI.Text('0', textStyle);
-    tex2Sprite.position.set(offset + 10, -4);
-    container.addChild(tex2Sprite);
-    unitCounts.push(tex2Sprite);
-    offset += 20;
+      const aSprite = makeAnimation(resources.gems.textures, 33, 4);
+      container.addChild(aSprite);
+      aSprite.position.set(offset, 0);
+      const tex3Sprite = new PIXI.Text('0', textStyle);
+      tex3Sprite.position.set(offset + 10, -4);
+      container.addChild(tex3Sprite);
+      unitCounts.push(tex3Sprite);
+      offset += 20;
 
-    const aSprite = makeAnimation(resources.gems.textures, 33, 4);
-    container.addChild(aSprite);
-    aSprite.position.set(offset, 0);
-    const tex3Sprite = new PIXI.Text('0', textStyle);
-    tex3Sprite.position.set(offset + 10, -4);
-    container.addChild(tex3Sprite);
-    unitCounts.push(tex3Sprite);
-    offset += 20;
+      app.ticker.add(() => {
+        unitCounts.forEach((e, i) => {
+          if (i < 3) {
+            e.text = planet.stationedMaterials[materialNames[i]];
+          } else {
+            e.text = planet.stationedCombatUnits[unitNames[i - 3]];
+          }
+        });
+      });
 
-    app.ticker.add(() => {
-      unitCounts.forEach((e, i) => {
-        if (i < 3) {
-          console.log(planet.stationedMaterials[materialNames[i]]);
-          e.text = planet.stationedMaterials[materialNames[i]];
-        } else {
-          e.text = planet.stationedCombatUnits[unitNames[i - 3]];
+      return container;
+    };
+
+    const makeDrawer = () => {
+      const container = new PIXI.Container();
+      const bg = new PIXI.Sprite(resources.planet.textures[10]);
+      const arrow = new PIXI.Sprite(resources.planet.textures[1]);
+      arrow.position.set(0, -10);
+      container.addChild(arrow);
+      container.addChild(bg);
+      return container;
+    };
+
+    const createFrame = () => {
+      const materialIdx = 7;
+      const container = new PIXI.Container();
+      const namePlate = new PIXI.Sprite(sheet[4]);
+      const bg = new PIXI.Sprite(sheet[16]);
+
+      const resourceCounts = createResourceCounts();
+
+      materialNames.forEach((material, i) => {
+        const gemY = [1, 19, 9];
+        if (!planet.stats.materialsGenerated[material]) return;
+        const matSprite = new PIXI.Sprite(sheet[materialIdx + i]);
+        const gemSprite = makeAnimation(resources.gems.textures, 2 + i * 5, 3);
+        gemSprite.position.set(2, gemY[i]);
+        container.addChild(matSprite);
+        container.addChild(gemSprite);
+      });
+
+      container.scale.set(3);
+      container.position.set(-100, -100);
+      const drawer = makeDrawer();
+      drawer.position.set(0, 10);
+      container.addChild(drawer);
+      container.addChild(bg);
+      container.addChild(resourceCounts);
+      container.addChild(namePlate);
+
+      let portalIndex = 0;
+      const makeButton = (
+        id: number,
+        tag: string,
+        onClick: (lastClick: ClickHistory) => void
+      ): any => {
+        const button: any = new PIXI.Sprite(sheet[id]);
+        button.interactive = true;
+        button.name = tag;
+        if (button.texture.trim) {
+          button.hitArea = button.texture.trim;
         }
-      });
-    });
+        button.on('mouseover', () => {
+          if (button.noSet) return;
+          document.body.style.cursor = 'pointer';
+          button.texture = sheet[id + 1];
+        });
+        button.on('mouseout', () => {
+          if (button.noSet) return;
+          document.body.style.cursor = '';
+          button.texture = sheet[id];
+        });
+        button.on('mousedown', () => {
+          if (button.noSet) return;
+          lastClicked.currentButton = button;
+          onClick(lastClicked);
+          lastClicked.lastButton = button;
+          lastClicked.lastButtonOwner = planet;
+          button.texture = sheet[id + 2];
+        });
+        button.on('mouseup', () => {
+          if (button.noSet) return;
+          button.texture = sheet[id];
+        });
+        (button as any).noSet = false;
+        return button;
+      };
 
-    return container;
-  };
+      // Make existing portal buttons
+      for (; portalIndex < planet.gateways.length; ++portalIndex) {
+        const idx = portalIndex;
+        const portalNew = makeButton(13, 'used', () => {
+          lastButton.noSet = false;
+          lastButton.texture = sheet[13];
 
-  const createFrame = (planet: Planet) => {
-    const materialIdx = 7;
-    const container = new PIXI.Container();
-    const namePlate = new PIXI.Sprite(sheet[4]);
-    const bg = new PIXI.Sprite(sheet[16]);
+          lastButton = portalNew;
+          lastButton.noSet = true;
+          lastButton.texture = sheet[14];
+          connection = planet.gateways[idx].destinationPlanet.stats.name;
+          connectedText.text = connection;
+        });
 
-    const resourceCounts = createResourceCounts(planet);
+        if (portalIndex === 0) {
+          lastButton = portalNew;
+          portalNew.noSet = true;
+          portalNew.texture = sheet[14];
+        }
+        portalNew.position.set(portalIndex * 10, 0);
+        container.addChild(portalNew);
+      }
 
-    materialNames.forEach((material, i) => {
-      const gemY = [1, 19, 9];
-      if (!planet.stats.materialsGenerated[material]) return;
-      const matSprite = new PIXI.Sprite(sheet[materialIdx + i]);
-      const gemSprite = makeAnimation(resources.gems.textures, 2 + i * 5, 3);
-      gemSprite.position.set(2, gemY[i]);
-      container.addChild(matSprite);
-      container.addChild(gemSprite);
-    });
-
-    container.scale.set(3);
-    container.position.set(-100, -100);
-    container.addChild(bg);
-    container.addChild(resourceCounts);
-    container.addChild(namePlate);
-
-    let portalIndex = 0;
-
-    // Make existing portal buttons
-    for (; portalIndex < planet.gateways.length; ++portalIndex) {
-      const portalNew = makeButton(13, planet, 'used', () => {
-        // planet.ProbePlanet();
-      });
-      portalNew.interactive = false;
-      portalNew.position.set(portalIndex * 10, 0);
-      container.addChild(portalNew);
-    }
-
-    // Make new portal buttons
-    for (
-      ;
-      portalIndex < planet.stats.maxGateways - planet.gateways.length;
-      ++portalIndex
-    ) {
-      const portalNew = makeButton(
-        13,
-        planet,
-        'open',
-        (lastClick: ClickHistory) => {
+      // Make new portal buttons
+      for (
+        ;
+        portalIndex < planet.stats.maxGateways - planet.gateways.length;
+        ++portalIndex
+      ) {
+        const portalNew = makeButton(18, 'open', (lastClick: ClickHistory) => {
           if (
             lastClick.lastButton !== undefined &&
             lastClick.lastButton.name === 'open' &&
@@ -198,43 +227,41 @@ Loader.load((loader: any, resources: any) => {
           ) {
             lastClick.lastButtonOwner.AddGatewayToPlanet(planet);
 
-            lastClick.lastButton.interactive = false;
             lastClick.lastButton.name = 'used';
-            lastClick.currentButton.interactive = false;
             lastClick.currentButton.name = 'used';
 
             return;
           }
-        }
-      );
-      portalNew.position.set(portalIndex * 10, 0);
-      container.addChild(portalNew);
-    }
-
-    const probeButton = makeButton(
-      13,
-      planet,
-      'probe',
-      (lastClick: ClickHistory) => {
-        planet.ProbePlanet();
+        });
+        portalNew.position.set(portalIndex * 10, 0);
+        container.addChild(portalNew);
       }
-    );
-    probeButton.position.set(portalIndex * 10, 0);
-    container.addChild(probeButton);
-    return container;
-  };
+      return container;
+    };
 
-  const createPlanet = (planet: Planet) => {
-    const container = new PIXI.Container();
+    connection = planet.gateways[0].destinationPlanet.stats.name;
+
+    const container2 = new PIXI.Container();
+    const c2 = new PIXI.Container();
+    c2.addChild(container2);
     const text = new PIXI.Text(planet.stats.name, {
       fontFamily: 'Press Start 2P',
       fontSize: '10px'
     });
 
+    container2.position.set(0, 150);
     text.position.set(-35, -65);
-    container.addChild(createFrame(planet));
-    container.addChild(text);
-    return container;
+
+    const text2 = new PIXI.Text(connection, {
+      fontFamily: 'Press Start 2P',
+      fontSize: '10px'
+    });
+    text2.position.set(-35, 3);
+    connectedText = text2;
+    container2.addChild(createFrame());
+    container2.addChild(text);
+    container2.addChild(text2);
+    return c2;
   };
 
   app.ticker.add(dt => {

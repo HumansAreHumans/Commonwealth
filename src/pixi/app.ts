@@ -12,9 +12,6 @@ export const app = new PIXI.Application({
 
 app.view.classList.add('pixi');
 document.body.appendChild(app.view);
-app.view.addEventListener('mousemove', () => {
-  console.log('whatever');
-});
 
 replicate(
   document.getElementById('networkgraph') as HTMLCanvasElement,
