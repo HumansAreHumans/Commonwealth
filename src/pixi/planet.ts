@@ -210,17 +210,6 @@ Loader.load((loader: any, resources: any) => {
       portalNew.position.set(portalIndex * 10, 0);
       container.addChild(portalNew);
     }
-
-    const probeButton = makeButton(
-      13,
-      planet,
-      'probe',
-      (lastClick: ClickHistory) => {
-        planet.ProbePlanet();
-      }
-    );
-    probeButton.position.set(portalIndex * 10, 0);
-    container.addChild(probeButton);
     return container;
   };
 
