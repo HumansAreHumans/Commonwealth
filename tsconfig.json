@@ -10,7 +10,7 @@
     "moduleResolution": "node",
     "rootDir": "src",
     "noImplicitReturns": true,
-    "noImplicitThis": true,
+    "noImplicitThis": false,
     "noImplicitAny": false,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
