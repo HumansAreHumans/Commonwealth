@@ -233,7 +233,7 @@ export class Planet extends GameObject {
 
         if (
           this.stationedMaterials[key] >= this.stats.materialCost[key] &&
-          this.stationedCombatUnits <
+          this.stationedCombatUnits[unitName] <
             resourceLimit - this.stats.unitsProduced[unitName]
         ) {
           this.stationedMaterials[key] -= this.stats.materialCost[key];

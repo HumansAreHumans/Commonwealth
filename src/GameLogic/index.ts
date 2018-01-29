@@ -18,9 +18,9 @@ planets.forEach((planet, i) => {
 });
 
 // Initial planet generation
-for (let i = 0; i < 100 ; ++i) {
+for (let i = 0; i < 20; ++i) {
     let owner = '';
-    
+
     // Select an owner
     const ownerChance = Math.random();
     if (ownerChance < 0.1) owner = 'factionOne';
