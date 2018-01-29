@@ -146,8 +146,9 @@ Loader.load((loader: any, resources: any) => {
 
   const createFrame = (planet: Planet) => {
     const materialIdx = 7;
+    const nameplateIdx = ((planet.planetOwner === 'player' || planet.planetOwner === '') ? 4 : 27);
     const container = new PIXI.Container();
-    const namePlate = new PIXI.Sprite(sheet[4]);
+    const namePlate = new PIXI.Sprite(sheet[nameplateIdx]);
     const bg = new PIXI.Sprite(sheet[16]);
 
     const resourceCounts = createResourceCounts(planet);
